@@ -21,7 +21,7 @@ export const DEFAULT_API_KEY = REACT_APP_DEFAULT_API_KEY;
 
 // export const API_URL = "http://localhost:3000/";
 
-export const API_URL = "https://kharphi-api.herokuapp.com/";
+export const API_URL = "http://52.66.209.188:3000/";
 
 export const HEADER = REACT_API_HEADER;
 
