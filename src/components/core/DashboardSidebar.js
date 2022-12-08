@@ -235,7 +235,7 @@ const DashboardSidebar = ({ onClick, open, sidebar }) => {
                       <div className="menu-list">
                         <NavLink exact to="/favourite/course" activeClassName="main-nav-active-style">
                           <FontAwesomeIcon icon={faStar} title="Favourite Course" className="menu-icon" size="1x" />
-                          Favourite Course
+                          Favourite Courses
                         </NavLink>
                       </div>
                       <div className="menu-list">
@@ -380,7 +380,7 @@ const DashboardSidebar = ({ onClick, open, sidebar }) => {
                             className="menu-icon"
                             size="1x"
                           />
-                          Upcoming Schedules
+                          Upcoming Schedule
                         </NavLink>
                       </div>
                       <div className="menu-list">
@@ -392,7 +392,7 @@ const DashboardSidebar = ({ onClick, open, sidebar }) => {
                       <div className="menu-list">
                         <NavLink exact to="/favourite/course" activeClassName="main-nav-active-style">
                           <FontAwesomeIcon icon={faStar} title="Favourite Course" className="menu-icon" size="1x" />
-                          Favourite Course
+                          Favourite Courses
                         </NavLink>
                       </div>
                       <div className="menu-list">
@@ -485,7 +485,7 @@ const DashboardSidebar = ({ onClick, open, sidebar }) => {
                 <div className="menu-list">
                   <NavLink exact to="/upcoming/teacher/schedule/list" activeClassName="main-nav-active-style">
                     <FontAwesomeIcon icon={faBookBookmark} title="Upcoming Schedules" className="menu-icon" size="1x" />
-                    Upcoming Schedules
+                    Upcoming Schedule
                   </NavLink>
                 </div>
                 <div className="menu-list">
@@ -558,22 +558,21 @@ const DashboardSidebar = ({ onClick, open, sidebar }) => {
             ) : (
               isTeacher &&
               checkPassword &&
-              // (status === "Review" ? (
-              //   <div div className="nav-list">
-              //     <div className="menu-list">
-              //       <NavLink exact to="/teacher/application/details" activeClassName="main-nav-active-style">
-              //         <FontAwesomeIcon
-              //           icon={faPersonCircleCheck}
-              //           title="Teacher Application"
-              //           className="menu-icon"
-              //           size="1x"
-              //         />
-              //         Teacher Application
-              //       </NavLink>
-              //     </div>
-              //   </div>
-              // ) :
-              (status === "Rejected" ? (
+              (status === "Review" ? (
+                <div div className="nav-list">
+                  <div className="menu-list">
+                    <NavLink exact to="/teacher/application/details" activeClassName="main-nav-active-style">
+                      <FontAwesomeIcon
+                        icon={faPersonCircleCheck}
+                        title="Teacher Application"
+                        className="menu-icon"
+                        size="1x"
+                      />
+                      Teacher Application
+                    </NavLink>
+                  </div>
+                </div>
+              ) : status === "Rejected" ? (
                 <div className="nav-list">
                   <div className="menu-list">
                     <NavLink exact to="/teacher/application/details" activeClassName="main-nav-active-style">
@@ -646,7 +645,7 @@ const DashboardSidebar = ({ onClick, open, sidebar }) => {
                         className="menu-icon"
                         size="1x"
                       />
-                      Upcoming Schedeule
+                      Upcoming Schedule
                     </NavLink>
                   </div>
                   <div className="menu-list">

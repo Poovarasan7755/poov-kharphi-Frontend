@@ -487,7 +487,7 @@ const NormalAccordionItem = ({ index, inputField, expanded, onClick }) => {
           </Col>
           <Col sm={4} md={4}>
             <Form.Group className="form-row mb-2" style={{ width: "100%" }}>
-              <Label notify={true}>States</Label>
+              <Label notify={true}>State</Label>
               <FormControl
                 value={inputField.workState}
                 name="workState"

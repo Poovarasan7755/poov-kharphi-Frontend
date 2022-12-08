@@ -6,28 +6,17 @@ import { Link, useHistory } from "react-router-dom";
 import "../../css/EditTeacher.scss";
 import {
   BsFillPersonPlusFill,
-  BsYoutube,
-  BsFacebook,
-  BsTwitter,
-  BsInstagram,
-  BsFillPersonLinesFill,
 } from "react-icons/bs";
-import { HiOutlineLightBulb } from "react-icons/hi";
-import { IoIosPeople } from "react-icons/io";
 import { stateToHTML } from "draft-js-export-html";
-import { EditorState, convertToRaw, convertFromRaw } from "draft-js";
+import {  convertFromRaw } from "draft-js";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { MdWork } from "react-icons/md";
-import { GrCertificate } from "react-icons/gr";
+
 import Api from "../../Api";
 import {
   faBrain,
   faBriefcase,
   faGraduationCap,
-  faHeadSideVirus,
-  faIdBadge,
   faIdCard,
-  faIdCardClip,
 } from "@fortawesome/free-solid-svg-icons";
 import { toast } from "react-toastify";
 

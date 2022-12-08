@@ -17,7 +17,7 @@ import Avatar from "react-avatar";
 import { GoogleLogin } from "react-google-login";
 import FacebookLogin from "react-facebook-login";
 import AddBox from "@material-ui/icons/AddBox";
-import moment from "moment";
+import moment from "moment-timezone";
 
 // Styles
 import "../../css/CourseDetail.scss";
@@ -77,12 +77,10 @@ const breakPoints = [
 
 //Validation
 const loginSchema = Yup.object().shape({
-  email: Yup.string()
-    .email("Enter Valid Email")
-    .required("Email Is Required"),
+  email: Yup.string().email("Enter Valid Email").required("Email Is Required"),
   password: Yup.string()
     .matches(
-      "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&])",
+      "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@*#$%^&])",
       "Password Should contain Uppercase, Lowercase, Numbers and Special Characters"
     )
     .min(8)
@@ -306,19 +304,45 @@ export default class CourseDetail extends Component {
     });
   };
 
+  //AdminCourse Details
+  getAdminCourseDetails() {
+    const userId = localStorage.getItem("userId");
+    const token = localStorage.getItem("sessionId");
+    Api.get(`/api/v1/course/detail/admin/${this.state.aliasName}`, {
+      params: {
+        userId: userId,
+        token: token,
+      },
+    }).then((res) => {
+      const data = res.data.data;
+
+      this.setState({
+        courseData: data.courseDetail,
+        lessonDetail: data.lessonDetail,
+        scheduleDetail: data.scheduleDetail,
+        isLoading: false,
+        spinner: false,
+      });
+    });
+  }
+
   // get Course Details
   getCourseDetails = (values) => {
     const sessionId = localStorage.getItem("sessionId");
-    this.setState({ token: sessionId });
+    const cDate = Date.now();
+    const currentDate = moment(cDate).tz("America/Chicago").format("ll");
+    this.setState({ token: sessionId, currentDate: currentDate });
     const userId = localStorage.getItem("userId");
     const studentId = localStorage.getItem("studentId");
     const parentId = localStorage.getItem("parentId");
     const token = localStorage.getItem("sessionId");
+    const role = localStorage.getItem("role");
     Api.get(`/api/v1/course/detail/${this.state.aliasName}`, {
       params: {
         userId: userId,
         studentId: values?.value ? values?.value : studentId,
         parentId: parentId,
+        role: role,
         token: token,
       },
     })
@@ -348,12 +372,15 @@ export default class CourseDetail extends Component {
 
   componentDidMount() {
     const parentId = localStorage.getItem("parentId");
-    if (parentId) {
-      this.studentList();
-    }
     const studentId = localStorage.getItem("studentId");
-    if (studentId) {
+    const role = localStorage.getItem("role");
+
+    if (role === "parent") {
+      this.studentList();
+    } else if (role === "student") {
       this.getCourseDetails();
+    } else {
+      this.getAdminCourseDetails();
     }
     // this.getCourseDetails();
 
@@ -387,7 +414,6 @@ export default class CourseDetail extends Component {
 
   lessonCheckOut = () => {
     const { multiLessonData, courseId, aliasName, lessonScheduleId, lessonPayment } = this.state;
-
     let lessonIds = [];
 
     multiLessonData?.map((list) => {
@@ -395,7 +421,7 @@ export default class CourseDetail extends Component {
     });
 
     let lessonId = [];
-    lessonId.push({ id: this.state.lessonIds });
+    lessonId.push({ id: this.state.lessonIds, lessonDiscountAmount: lessonPayment });
     if (lessonScheduleId) {
       this.props.history.push({
         pathname: `/course/checkout/${aliasName}`,
@@ -571,6 +597,7 @@ export default class CourseDetail extends Component {
       checkoutId,
       courseCheckout,
       studentList,
+      currentDate,
     } = this.state;
     const studentId = localStorage.getItem("studentId");
     const parentId = localStorage.getItem("parentId");
@@ -763,7 +790,12 @@ export default class CourseDetail extends Component {
                                       <Link className="enroll-link-disable" to={"#"} onClick={() => {}}>
                                         Enroll
                                       </Link>
-                                    ) : studentId === courseCheckout?.studentId ? (
+                                    ) : studentId === courseCheckout?.studentId ||
+                                      parentId === courseCheckout?.parentId ? (
+                                      <Link className="enroll-link-disable" disabled>
+                                        Enroll
+                                      </Link>
+                                    ) : currentDate < scheduleDetail.startDate ? (
                                       <Link className="enroll-link-disable" disabled>
                                         Enroll
                                       </Link>

@@ -62,9 +62,7 @@ const SignInSchema = Yup.object().shape({
     .max(10, "Enter valid number")
     .required("Phone Number Is Required"),
 
-  email: Yup.string()
-    .email("Enter Valid Email")
-    .required("Email Is Required"),
+  email: Yup.string().email("Enter Valid Email").required("Email Is Required"),
 
   student: isParent && Yup.object().required("Student Name Is Required"),
 });
@@ -393,7 +391,6 @@ class CourseCheckoutScreen extends Component {
               params: {
                 courseScheduleId: this.state.scheduleId,
                 studentId: isParent ? this.state.studentId : userStudentId,
-               
               },
             })
               .then((res) => {
@@ -776,7 +773,8 @@ class CourseCheckoutScreen extends Component {
                               <InputGroup className="mb-3">
                                 <InputGroup.Text id="basic-addon1">+1</InputGroup.Text>
                                 <FormControl
-                                  type="phoneNumber"
+                                  maxlength="10"
+                                  type="tel"
                                   name="phone"
                                   placeholder="Phone Number"
                                   id="phone"
@@ -797,7 +795,7 @@ class CourseCheckoutScreen extends Component {
                         <Row className="px-3 pt-2">
                           <Col sm={4} md={4}>
                             <Form.Group className="form-row mb-2" style={{ width: "100%" }}>
-                              <Label notify={true}>States</Label>
+                              <Label notify={true}>State</Label>
 
                               <Select
                                 value={this.state.state}

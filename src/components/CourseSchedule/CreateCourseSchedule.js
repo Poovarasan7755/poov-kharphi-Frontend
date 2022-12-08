@@ -204,9 +204,15 @@ export default class CreateCourseSchedule extends Component {
               courseScheduleId: response.data.scheduleDetails.id,
               teacherId: this.state.teacherId,
               token: token,
+            }).then((res) => {
+              if (res.status === 201) {
+                toast.success("schedule created successfully");
+                setTimeout(() => {
+                  this.props.history.goBack();
+                }, 1000);
+              }
             });
             this.setState({ isSubmit: false });
-            this.props.history.goBack();
           } else {
             toast.error(response.data.message);
             this.setState({ isSubmit: false });
@@ -492,12 +498,9 @@ export default class CreateCourseSchedule extends Component {
                                                 <div className="d-flex justify-content-start align-items-center">
                                                   <Avatar src={list.imageUrl} alt="" round={true} />
                                                   <div className="dropdown-names">
-                                                    {`${list.firstName +
-                                                      " " +
-                                                      list.middleName +
-                                                      " " +
-                                                      list.lastName +
-                                                      " "}`}
+                                                    {`${
+                                                      list.firstName + " " + list.middleName + " " + list.lastName + " "
+                                                    }`}
                                                   </div>
                                                 </div>
                                               ) : (
@@ -511,12 +514,9 @@ export default class CreateCourseSchedule extends Component {
                                                     </p>
                                                   </Avatar>
                                                   <div className="dropdown-names">
-                                                    {`${list.firstName +
-                                                      " " +
-                                                      list.middleName +
-                                                      " " +
-                                                      list.lastName +
-                                                      " "}`}
+                                                    {`${
+                                                      list.firstName + " " + list.middleName + " " + list.lastName + " "
+                                                    }`}
                                                   </div>
                                                 </div>
                                               )}

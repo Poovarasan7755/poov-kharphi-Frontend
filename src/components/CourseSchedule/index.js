@@ -96,6 +96,7 @@ function CourseSchedule(props) {
         const list = res.data.courseList;
         setData(list);
         setIsLoading(false);
+        
       })
       .catch((error) => {
         const errorStatus = error?.response?.status;
@@ -130,12 +131,8 @@ function CourseSchedule(props) {
   // Delete Course Schedule
   const deleteCourseSchedule = (data, reload) => {
     const date = Date.now();
-    const cTime = moment(date)
-      .tz("America/Chicago")
-      .format("LT");
-    const cDate = moment(date)
-      .tz("America/Chicago")
-      .format("ll");
+    const cTime = moment(date).tz("America/Chicago").format("LT");
+    const cDate = moment(date).tz("America/Chicago").format("ll");
     const token = localStorage.getItem("sessionId");
 
     Api.delete(`api/v1/courseSchedule/`, {

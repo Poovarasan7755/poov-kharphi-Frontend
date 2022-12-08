@@ -60,7 +60,7 @@ const SetPassword = (props) => {
       .required("Old Password Is Required"),
     newPassword: Yup.string()
       .matches(
-        "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&])",
+        "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@*#$%^&])",
         "Password Should contain Uppercase, Lowercase, Numbers and Special Characters"
       )
       .min(8, "New Password Should Be Minimum 8 Characters")
@@ -68,7 +68,7 @@ const SetPassword = (props) => {
     confirmPassword: Yup.string()
       .oneOf([Yup.ref("newPassword"), null], "Passwords Doesn't Match")
       .matches(
-        "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&])",
+        "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#*$%^&])",
         "Password Should contain Uppercase, Lowercase, Numbers and Special Characters"
       )
       .min(8, "Confirm Password Should Be Minimum 8 Characters")

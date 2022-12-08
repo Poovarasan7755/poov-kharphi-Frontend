@@ -49,7 +49,7 @@ export default function DefaultFooter(props) {
             </b>
           </div>
           <div className="d-flex flex-direction-row mt-2">
-            <FontAwesomeIcon icon={faEnvelope} className="mt-1 me-1" color="#3f51b5" width={"20px"} />{" "}
+            <FontAwesomeIcon icon={faEnvelope} className="mt-1 me-1" color="#3f51b5" width={"20px"} />
             <b className="footer-font">
               <a href="mailto:Kharpi@gmail.com" className="footer-text-decoderation linkColor">
                 Kharphi@gmail.com

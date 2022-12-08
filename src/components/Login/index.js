@@ -190,12 +190,10 @@ const Login = () => {
 
   // Validation
   const loginSchema = Yup.object().shape({
-    email: Yup.string()
-      .email("Enter Valid Email")
-      .required("Email Is Required"),
+    email: Yup.string().email("Enter Valid Email").required("Email Is Required"),
     password: Yup.string()
       .matches(
-        "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&])",
+        "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#*$%^&])",
         "Password Should contain Uppercase, Lowercase, Numbers and Special Characters"
       )
       .min(8, "Password Required Minimum 8 Characters")

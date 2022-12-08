@@ -16,8 +16,7 @@ import Loader from "../../components/core/Loader";
 import "../../css/TeacherDashboard.scss";
 
 //icon
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCopy } from "@fortawesome/free-solid-svg-icons";
+
 import DisplayTeacherApplication from "../TeacherApplication/displayTeacherApplication";
 
 function TeacherDashboard() {

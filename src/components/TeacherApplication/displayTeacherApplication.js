@@ -19,7 +19,7 @@ const DisplayTeacherApplication = (props) => {
   const [experience, setExperience] = useState([]);
   const [profile, setProfile] = useState([]);
   const [status, setStatus] = useState("");
-  const history = useHistory;
+  const history = useHistory();
 
   //logout
   const logout = () => {
@@ -36,9 +36,10 @@ const DisplayTeacherApplication = (props) => {
       .then((response) => {
         const data = response?.data?.getTeacherApplication;
         setStatus(data?.status);
-
         if (data === null) {
           setisLoading(false);
+          // logout();
+          history.push("/teacher/application/form");
         } else {
           const firstName = data.teacherId.firstName;
           const lastName = data.teacherId.lastName;

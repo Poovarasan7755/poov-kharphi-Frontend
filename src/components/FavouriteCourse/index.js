@@ -104,7 +104,7 @@ export default class FavouriteCourse extends Component {
               </Row>
             ) : (
               <div style={{ marginTop: "150px" }} className="text-center">
-                No Favourite Course List
+                No Favourite Courses List
               </div>
             )}
           </div>

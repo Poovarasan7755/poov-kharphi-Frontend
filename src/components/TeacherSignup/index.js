@@ -71,9 +71,7 @@ const SignInSchema = Yup.object().shape({
     .length(10)
     .required("Phone Number Is Required"),
 
-  email: Yup.string()
-    .email("Enter Valid Email")
-    .required("Email Is Required"),
+  email: Yup.string().email("Enter Valid Email").required("Email Is Required"),
 
   speciality: Yup.string().required("Speciality Is Required"),
 
@@ -83,7 +81,7 @@ const SignInSchema = Yup.object().shape({
   userName: Yup.string().required("User Name Is Required"),
   password: Yup.string()
     .matches(
-      "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])",
+      "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#*$%^&*])",
       "Password Should contain Uppercase, Lowercase, Numbers and Special Characters"
     )
     .min(8, "Password Required Minimum 8 Characters")
@@ -91,7 +89,7 @@ const SignInSchema = Yup.object().shape({
 
   confirmPassword: Yup.string()
     .matches(
-      "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])",
+      "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#*$%^&*])",
       "Confirm Password Should contain Uppercase, Lowercase, Numbers and Special Characters"
     )
     .oneOf([Yup.ref("password"), null], "Password Did Not Match")
@@ -486,15 +484,15 @@ class TeacherSignup extends Component {
                           <div className="row d-flex justify-content-center">
                             <Col>
                               <Form.Group className="form-row mb-3">
-                                <Label notify={true}>Phon Number</Label>
+                                <Label notify={true}>Phone Number</Label>
                                 <br />
                                 <InputGroup className="mb-3">
                                   <InputGroup.Text id="basic-addon1">+1</InputGroup.Text>
                                   <FormControl
-                                    type="tel"
                                     name="phone"
                                     id="phone"
                                     maxlength="10"
+                                    type="tel"
                                     placeholder="Enter Your Phone Number"
                                     value={values.phone}
                                     onChange={handleChange}

@@ -204,7 +204,7 @@ const ParentSignup = (props) => {
     email: Yup.string().email("Enter Valid Email").required("Email Is Required"),
     password: Yup.string()
       .matches(
-        "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&])",
+        "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$*%^&])",
         "Password Should contain Uppercase, Lowercase, Numbers and Special Characters"
       )
       .min(8, "Password Required Minimum 8 Characters")
@@ -212,14 +212,14 @@ const ParentSignup = (props) => {
     confirmPassword: Yup.string()
       .oneOf([Yup.ref("password"), null], "Passwords must match")
       .matches(
-        "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&])",
+        "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#*$%^&])",
         "Confirm Password Should contain Uppercase, Lowercase, Numbers and Special Characters"
       )
       .required("Confirm Password Is Required"),
     captcha: Yup.string()
       .min(6, "Captcha required minimum 6 characters ")
       .max(6, "Captcha maximum 6 characters")
-      .required("Captcha is Required"),
+      .required("Captcha Is Required"),
   });
 
   return (

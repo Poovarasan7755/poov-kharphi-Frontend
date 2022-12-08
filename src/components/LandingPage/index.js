@@ -153,7 +153,7 @@ function LandingPage(props) {
         </div>
         <div className="kharpi-img-div-two">
           <div className="content-link">
-            <p className="links mx-4" onClick={() => history.push("/login")}>
+            <p className="links mx-4" onClick={() => history.push("/course/search")}>
               Courses
             </p>
             <p className="links mx-4" onClick={() => history.push("/trainers")}>
@@ -630,48 +630,49 @@ function LandingPage(props) {
           </div>
         </div>
       ) : null}
-      {allCourseList?.length > 0 ? (
-        <div className="back-image-main-last">
-          <img src={backImg1} alt="" className="back-image-one" />
-          <div className="back-image-center">
-            <Carousel itemsToShow={1} itemsToScroll={1} renderArrow={ChangeArrowOne}>
-              {allCourseList.map((item, i) => (
-                <div className="back-image-center-last">
-                  <div className="coma-div">
-                    <div className="coma-div2">
-                      <img src={DQ} alt="" className="coma-img" />
+      {
+        allCourseList?.length > 0 ? (
+          <div className="back-image-main-last">
+            <img src={backImg1} alt="" className="back-image-one" />
+            <div className="back-image-center">
+              <Carousel itemsToShow={1} itemsToScroll={1} renderArrow={ChangeArrowOne}>
+                {allCourseList.map((item, i) => (
+                  <div className="back-image-center-last">
+                    <div className="coma-div">
+                      <div className="coma-div2">
+                        <img src={DQ} alt="" className="coma-img" />
+                      </div>
                     </div>
-                  </div>
-                  <img src={Img4} className="curve-image-last" />
-                  <div className="user-center-div">
-                    <div>
-                      <p className="user-pTag">
-                        Lorem ipsum is simply dummy text of the printing and typesetting industry. Lorem ipsum has been
-                        the industry’s standard dummy test ever since the 1500s.
-                      </p>
-                      <hr className="hr-line-last m" />
-                      <p className="user-date-pTag">01-01-2020</p>
-                      <div className="user-content-last">
-                        <Avatar src={Aimg2} size="55" round={true} color="silver" className="mx-1" />
-                        <div className="mt-3">
-                          <p className="kharpi-user-name-last mx-3">Kharpi User</p>
-                          <p className="kharpi-user-profession-last mx-3">Business Representative</p>
+                    <img src={Img4} className="curve-image-last" />
+                    <div className="user-center-div">
+                      <div>
+                        <p className="user-pTag">
+                          Lorem ipsum is simply dummy text of the printing and typesetting industry. Lorem ipsum has
+                          been the industry’s standard dummy test ever since the 1500s.
+                        </p>
+                        <hr className="hr-line-last m" />
+                        <p className="user-date-pTag">01-01-2020</p>
+                        <div className="user-content-last">
+                          <Avatar src={Aimg2} size="55" round={true} color="silver" className="mx-1" />
+                          <div className="mt-3">
+                            <p className="kharpi-user-name-last mx-3">Kharpi User</p>
+                            <p className="kharpi-user-profession-last mx-3">Business Representative</p>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              ))}
-            </Carousel>
+                ))}
+              </Carousel>
+            </div>
           </div>
-        </div>
-      ) : null
-      // (
-      //   <Card>
-      //     <h4 className="text-center my-3">Kharpi users</h4>
-      //     <p className="text-center mt-3 mb-4">No Records to show !</p>
-      //   </Card>
-      // )
+        ) : null
+        // (
+        //   <Card>
+        //     <h4 className="text-center my-3">Kharpi users</h4>
+        //     <p className="text-center mt-3 mb-4">No Records to show !</p>
+        //   </Card>
+        // )
       }
       {/* <ChatBotConversation /> */}
       <div className="landing-page-footer-background">

@@ -15,7 +15,7 @@ import { TEACHER_ACCOUNT_TYPE, TEACHER_ACCOUNT_COUNTRY, TEACHER_ACCOUNT_CURRENCY
 
 // Icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPen, faEye, faEyeSlash, faBuildingColumns, faUserPlus } from "@fortawesome/free-solid-svg-icons";
+import { faPen, faBuildingColumns, faUserPlus } from "@fortawesome/free-solid-svg-icons";
 
 // Styles
 import "../../css/EditTeacherDetails.scss";
@@ -29,7 +29,6 @@ import profile from "../core/NoProfile.png";
 // Api
 import Api from "../../Api";
 import { customStyles } from "../core/Selector";
-import LabelComponent from "../../components/core/Label";
 
 //Tabs
 import { Tab, Tabs } from "@material-ui/core";
@@ -48,7 +47,7 @@ const EmailSignInSchema = Yup.object().shape({
 
   password: Yup.string()
     .matches(
-      "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&])",
+      "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@*#$%^&])",
       "Password Should contain Uppercase, Lowercase, Numbers and Special Characters"
     )
     .min(8, "Password Required Minimum 8 Characters")
@@ -56,7 +55,7 @@ const EmailSignInSchema = Yup.object().shape({
   confirmPassword: Yup.string()
     .oneOf([Yup.ref("password"), null], "Passwords must match")
     .matches(
-      "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&])",
+      "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#*$%^&])",
       "Confirm Password Should contain Uppercase, Lowercase, Numbers and Special Characters"
     )
     .required("Confirm Password Is Required"),
@@ -75,13 +74,9 @@ const EmailSignInSchema = Yup.object().shape({
     .min(10, "Enter Valid number")
     .required("Phone Number Is Required"),
 
-  email: Yup.string()
-    .email("Enter Valid Email")
-    .required("Email Is Required"),
+  email: Yup.string().email("Enter Valid Email").required("Email Is Required"),
 
-  alternativeEmail: Yup.string()
-    .email("Enter Valid Email")
-    .nullable(),
+  alternativeEmail: Yup.string().email("Enter Valid Email").nullable(),
 
   speciality: Yup.string().required("Speciality Is Required"),
 
@@ -113,13 +108,9 @@ const GoogleAndFacebookSignInSchema = Yup.object().shape({
     .matches(/^[0-9\s]+$/, "Enter Valid Phone Number")
     .required("Phone Number Is Required"),
 
-  email: Yup.string()
-    .email("Enter Valid Email")
-    .required("Email Is Required"),
+  email: Yup.string().email("Enter Valid Email").required("Email Is Required"),
 
-  alternativeEmail: Yup.string()
-    .email("Enter Valid Email")
-    .nullable(),
+  alternativeEmail: Yup.string().email("Enter Valid Email").nullable(),
 
   speciality: Yup.string().required("Speciality Is Required"),
 
@@ -132,8 +123,9 @@ const BankDetails = Yup.object().shape({
   accountName: Yup.string().required("Account Name is Required"),
   routingNumber: Yup.string().required(" Account Routing Number is Required"),
   bankName: Yup.string().required("Bank Name is Required"),
-  accountNumber: Yup.string().required("Account Number is Required"),
-  confirmAccountNumber: Yup.string()
+  accountNumber: Yup.number().typeError("Please Enter Numbers Only").required("Account Number is Required"),
+  confirmAccountNumber: Yup.number()
+    .typeError("Please Enter Numbers Only")
     .oneOf([Yup.ref("accountNumber"), null], "Accounts Number is must atch")
     .required("Confirm Account Number is Required"),
   // customerId: Yup.string().required("customer Id is Required"),
@@ -459,7 +451,7 @@ export default class EditTeacherDetails extends Component {
 
     Api.get("/api/v1/teacher/bank/details", {
       params: {
-        userId: userId,
+        teacherId: this.state.teacherId,
         token: token,
       },
     })
@@ -514,6 +506,7 @@ export default class EditTeacherDetails extends Component {
         })),
       },
     ];
+    const role = localStorage.getItem("role");
     return (
       <div>
         {this.state.isLoading ? (
@@ -779,7 +772,7 @@ export default class EditTeacherDetails extends Component {
                                   <InputGroup className="mb-3">
                                     <InputGroup.Text id="basic-addon1">+1</InputGroup.Text>
                                     <FormControl
-                                      type="phone"
+                                      type="tel"
                                       name="phone"
                                       id="phone"
                                       maxlength="6"
@@ -1144,101 +1137,106 @@ export default class EditTeacherDetails extends Component {
                           onSubmit={handleSubmit}
                           onReset={handleReset}
                         >
-                          <h4>Bank Account Information</h4>
-                          <Form.Group className="form-row mb-3 mt-3">
-                            <Label notify={true}>Account Holder Name </Label>
-                            <Form.Control
-                              placeholder="Account Holder Number"
-                              name="accountName"
-                              id="accountName"
-                              value={values.accountName}
-                              type="string"
-                              onChange={handleChange}
-                              onBlur={handleBlur}
-                              className="form-width"
-                            />
-                            <ErrorMessage name="accountName" component="span" className="error text-danger" />
-                          </Form.Group>
-                          <Form.Group className="form-row mb-3">
-                            <Label notify={true}>Account Routing Number </Label>
-                            <Form.Control
-                              placeholder="Account Routing Number"
-                              name="routingNumber"
-                              id="routingNumber"
-                              type="string"
-                              value={values.routingNumber}
-                              onChange={handleChange}
-                              onBlur={handleBlur}
-                              className="form-width"
-                            />
-                            <ErrorMessage name="routingNumber" component="span" className="error text-danger" />
-                          </Form.Group>
-                          <Form.Group className="form-row mb-3">
-                            <Label notify={true}>Bank Name </Label>
-                            <Form.Control
-                              placeholder="Bank Name"
-                              name="bankName"
-                              id="bankName"
-                              type="string"
-                              value={values.bankName}
-                              onChange={handleChange}
-                              onBlur={handleBlur}
-                              className="form-width"
-                            />
-                            <ErrorMessage name="bankName" component="span" className="error text-danger" />
-                          </Form.Group>
-                          <Form.Group className="form-row mb-3">
-                            <Label notify={true}>Account Number </Label>
-                            <Form.Control
-                              name="accountNumber"
-                              id="accountNumber"
-                              placeholder="Account Number"
-                              type="string"
-                              value={values.accountNumber}
-                              onChange={handleChange}
-                              onBlur={handleBlur}
-                              className="form-width"
-                            />
-                            <ErrorMessage name="accountNumber" component="span" className="error text-danger" />
-                          </Form.Group>
-                          <Form.Group className="form-row mb-3">
-                            <Label notify={true}>Confirm Account Number </Label>
-                            <Form.Control
-                              name="confirmAccountNumber"
-                              id="confirmAccountNumber"
-                              placeholder="Confirm Account Number"
-                              type="string"
-                              value={values.confirmAccountNumber}
-                              onChange={handleChange}
-                              onBlur={handleBlur}
-                              className="form-width"
-                            />
-                            <ErrorMessage name="confirmAccountNumber" component="span" className="error text-danger" />
-                          </Form.Group>
-                          <Form.Group className="form-row mb-3">
-                            <Label>Customer Id </Label>
-                            <Form.Control
-                              name="customerId"
-                              id="customerId"
-                              placeholder="Customer Id"
-                              type="string"
-                              value={values.customerId}
-                              className="form-width"
-                              disabled
-                            />
-                            {/* <ErrorMessage name="customerId" component="span" className="error text-danger" /> */}
-                          </Form.Group>
+                          <fieldset disabled={role === "admin" ? true : false}>
+                            <h4>Bank Account Information</h4>
+                            <Form.Group className="form-row mb-3 mt-3">
+                              <Label notify={true}>Account Holder Name </Label>
+                              <Form.Control
+                                placeholder="Account Holder Number"
+                                name="accountName"
+                                id="accountName"
+                                value={values.accountName}
+                                type="string"
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                className="form-width"
+                              />
+                              <ErrorMessage name="accountName" component="span" className="error text-danger" />
+                            </Form.Group>
+                            <Form.Group className="form-row mb-3">
+                              <Label notify={true}>Account Routing Number </Label>
+                              <Form.Control
+                                placeholder="Account Routing Number"
+                                name="routingNumber"
+                                id="routingNumber"
+                                type="string"
+                                value={values.routingNumber}
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                className="form-width"
+                              />
+                              <ErrorMessage name="routingNumber" component="span" className="error text-danger" />
+                            </Form.Group>
+                            <Form.Group className="form-row mb-3">
+                              <Label notify={true}>Bank Name </Label>
+                              <Form.Control
+                                placeholder="Bank Name"
+                                name="bankName"
+                                id="bankName"
+                                type="string"
+                                value={values.bankName}
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                className="form-width"
+                              />
+                              <ErrorMessage name="bankName" component="span" className="error text-danger" />
+                            </Form.Group>
+                            <Form.Group className="form-row mb-3">
+                              <Label notify={true}>Account Number </Label>
+                              <Form.Control
+                                name="accountNumber"
+                                id="accountNumber"
+                                placeholder="Account Number"
+                                type="string"
+                                value={values.accountNumber}
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                className="form-width"
+                              />
+                              <ErrorMessage name="accountNumber" component="span" className="error text-danger" />
+                            </Form.Group>
+                            <Form.Group className="form-row mb-3">
+                              <Label notify={true}>Confirm Account Number </Label>
+                              <Form.Control
+                                name="confirmAccountNumber"
+                                id="confirmAccountNumber"
+                                placeholder="Confirm Account Number"
+                                type="string"
+                                value={values.confirmAccountNumber}
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                className="form-width"
+                              />
+                              <ErrorMessage
+                                name="confirmAccountNumber"
+                                component="span"
+                                className="error text-danger"
+                              />
+                            </Form.Group>
+                            {/* <Form.Group className="form-row mb-3">
+                              <Label>Customer Id </Label>
+                              <Form.Control
+                                name="customerId"
+                                id="customerId"
+                                placeholder="Customer Id"
+                                type="string"
+                                value={values.customerId}
+                                className="form-width"
+                                disabled
+                              />
+                            </Form.Group> */}
 
-                          <Row className="mt-4 mb-3">
-                            <Col className="d-flex justify-content-end">
-                              <Button className="me-2 confirm-payment-cancel-btn px-3" type="reset">
-                                Cancel
-                              </Button>
-                              <Button type="submit" className="bank-save-btn px-4">
-                                Save
-                              </Button>
-                            </Col>
-                          </Row>
+                            <Row className="mt-4 mb-3">
+                              <Col className="d-flex justify-content-end">
+                                <Button className="me-2 confirm-payment-cancel-btn px-3" type="reset">
+                                  Cancel
+                                </Button>
+                                <Button type="submit" className="bank-save-btn px-4">
+                                  Save
+                                </Button>
+                              </Col>
+                            </Row>
+                          </fieldset>
                         </Form>
                       </Col>
                       <Col></Col>

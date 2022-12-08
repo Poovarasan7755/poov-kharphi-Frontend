@@ -40,10 +40,7 @@ const EmailSignInSchema = Yup.object().shape({
     .matches(/^[A-Z]/, "First Letter Must Be Capital")
     .matches(/^[aA-zZ\s]+$/, "Enter Valid Name")
     .required("Last Name Is Required"),
-  phoneNumber: Yup.string()
-    .max(10, "Enter Valid number")
-    .min(10, "Enter Valid number")
-    .nullable(),
+  phoneNumber: Yup.string().max(10, "Enter Valid number").min(10, "Enter Valid number").nullable(),
   zipCode: Yup.string()
     .nullable()
     .matches(
@@ -52,13 +49,11 @@ const EmailSignInSchema = Yup.object().shape({
     )
     .matches(/^[0-9]{5}$/, "Zip Code Must Be 5 Digits"),
 
-  email: Yup.string()
-    .email("Enter Valid Email")
-    .required("Email Is Required"),
+  email: Yup.string().email("Enter Valid Email").required("Email Is Required"),
 
   password: Yup.string()
     .matches(
-      "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&])",
+      "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@*#$%^&])",
       "Password Should contain Uppercase, Lowercase, Numbers and Special Characters"
     )
     .min(8, "Password Required Minimum 8 characters")
@@ -67,7 +62,7 @@ const EmailSignInSchema = Yup.object().shape({
   confirmPassword: Yup.string()
     .oneOf([Yup.ref("password"), null], "Passwords must match")
     .matches(
-      "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&])",
+      "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@*#$%^&])",
       "Confirm Password Should contain Uppercase, Lowercase, Numbers and Special Characters"
     )
     .required("Confirm Password Is Required"),
@@ -97,9 +92,7 @@ const GoogleAndFacebookSignInSchema = Yup.object().shape({
     )
     .matches(/^[0-9]{5}$/, "Zip Code Must Be 5 Digits"),
 
-  email: Yup.string()
-    .email("Enter Valid Email")
-    .required("Email Is Required"),
+  email: Yup.string().email("Enter Valid Email").required("Email Is Required"),
 });
 
 class EditParentDetails extends Component {
@@ -135,8 +128,8 @@ class EditParentDetails extends Component {
   //logout
   logout = () => {
     setTimeout(() => {
-       localStorage.clear(this.props.history.push("/kharpi"));
-       window.location.reload();
+      localStorage.clear(this.props.history.push("/kharpi"));
+      window.location.reload();
     }, 2000);
   };
 
@@ -519,7 +512,7 @@ class EditParentDetails extends Component {
                                   <InputGroup className="mb-3">
                                     <InputGroup.Text id="basic-addon1">+1</InputGroup.Text>
                                     <FormControl
-                                      type="phoneNumber"
+                                      type="tel"
                                       placeholder="PhoneNumber"
                                       maxlength="6"
                                       name="phoneNumber"

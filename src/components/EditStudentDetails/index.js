@@ -62,15 +62,13 @@ const EmailSignInSchema = Yup.object().shape({
     )
     .matches(/^[0-9]{5}$/, "Zip Code Must Be 5 Digits"),
 
-  email: Yup.string()
-    .email("Enter Valid Email")
-    .required("Email Is Required"),
+  email: Yup.string().email("Enter Valid Email").required("Email Is Required"),
 
   dob: Yup.string().required("Date Of Birth Is Required"),
 
   password: Yup.string()
     .matches(
-      "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&])",
+      "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@*#$%^&])",
       "Password Should contain Uppercase, Lowercase, Numbers and Special Characters"
     )
     .min(8, "Password Required Minimum 8 characters")
@@ -79,7 +77,7 @@ const EmailSignInSchema = Yup.object().shape({
   confirmPassword: Yup.string()
     .oneOf([Yup.ref("password"), null], "Passwords must match")
     .matches(
-      "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&])",
+      "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@*#$%^&])",
       "Confirm Password Should contain Uppercase, Lowercase, Numbers and Special Characters"
     )
     .required("Confirm Password Is Required"),
@@ -586,7 +584,7 @@ class EditStudentDetails extends Component {
                                     <InputGroup className="mb-3">
                                       <InputGroup.Text id="basic-addon1">+1</InputGroup.Text>
                                       <FormControl
-                                        type="phoneNumber"
+                                        type="tel"
                                         placeholder="PhoneNumber"
                                         maxlength="6"
                                         name="phoneNumber"
