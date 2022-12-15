@@ -41,7 +41,7 @@ const Experience = () => {
 export const experienceSchema = (event) => {
   const experience = event.experienceData;
   let status = false;
-  let newArr = experience.map(function(value) {
+  let newArr = experience.map(function (value) {
     if (
       !value.workInstitution ||
       !value.experience ||
@@ -74,25 +74,22 @@ const NormalAccordionItem = ({ index, inputField, expanded, onClick }) => {
   const [stateCode, setStateCode] = useState("");
   const [category, setCategory] = useState([]);
   const token = localStorage.getItem("sessionId");
-    const history = useHistory();
-
+  const history = useHistory();
 
   //logout
   const logout = () => {
-     setTimeout(() => {
-       localStorage.clear(history.push("/kharpi"));
-       window.location.reload();
-     }, 2000);
+    setTimeout(() => {
+      localStorage.clear(history.push("/kharpi"));
+      window.location.reload();
+    }, 2000);
   };
 
   // Get Course Category
   const getCategory = () => {
-    Api.get("api/v1/category")
-      .then((res) => {
-        const option = res.data.data.data;
-        setCategory(option);
-      })
-      
+    Api.get("api/v1/category").then((res) => {
+      const option = res.data.data.data;
+      setCategory(option);
+    });
   };
 
   useEffect(() => {
@@ -538,10 +535,11 @@ const NormalAccordionItem = ({ index, inputField, expanded, onClick }) => {
             >
               <Label notify={true}>Zip Code</Label>
               <FormControl
-                type="type"
+                type="tel"
                 placeholder="Zip Code"
                 id="workZipCode"
                 name="workZipCode"
+                maxLength={5}
                 className="form-width"
                 onChange={(event) => handleInputChange(index, event)}
                 value={inputField.workZipCode}

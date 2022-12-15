@@ -586,7 +586,7 @@ class EditStudentDetails extends Component {
                                       <FormControl
                                         type="tel"
                                         placeholder="PhoneNumber"
-                                        maxlength="6"
+                                        maxlength="10"
                                         name="phoneNumber"
                                         id="phoneNumber"
                                         value={values.phone}

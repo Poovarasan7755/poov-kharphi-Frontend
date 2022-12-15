@@ -143,7 +143,7 @@ function ParentStudent(props) {
       field: "totalCourseEnrolled",
     },
     {
-      title: "Active",
+      title: "InActive",
       render: (rowData) => (
         <Form>
           <Form.Check

@@ -38,12 +38,10 @@ const courseScheduleSchema = Yup.object().shape({
     .required("Maximum Enroll Count Is Required"),
 
   startTime: Yup.string().required("Start Time Is Required"),
-
   endTime: Yup.string().required("End Time Is Required"),
-
   timeZone: Yup.string().required("Time Zone Is Required"),
-
   startDate: Yup.string().required("Course Start Date Is Required"),
+  teacherName: Yup.object().required("Teacher Is Required"),
 });
 
 const options = [
@@ -173,6 +171,7 @@ export default class CreateCourseSchedule extends Component {
   };
   // Submit form
   submitForm = (values) => {
+    console.log("values", values);
     const token = localStorage.getItem("sessionId");
     this.setState({ isSubmit: true });
     const startTimeValue = moment(values.startTime, "LLLL").format("LT");
@@ -467,9 +466,10 @@ export default class CreateCourseSchedule extends Component {
                             <Row>
                               <Col>
                                 <Form.Group className="form-row mb-3">
-                                  <Label>Teachers</Label>
+                                  <Label notify={true}>Teachers</Label>
                                   <Select
                                     value={this.state.teacherNameSelect}
+                                    name="teacherName"
                                     placeholder="Assign Teachers..."
                                     styles={customStyles}
                                     onChange={(e) => {
@@ -478,12 +478,12 @@ export default class CreateCourseSchedule extends Component {
                                         this.setState({ teacherId: "" });
                                       } else {
                                         setFieldValue("teacherName", e);
-                                        this.setState({ teacherNameSelect: e });
                                         this.checkTeacherSchedule(e);
                                         this.setState({
                                           teacherName: e.name,
                                           teacherId: e.value,
                                           speciality: e.speciality,
+                                          teacherNameSelect: e,
                                         });
                                       }
                                     }}

@@ -775,7 +775,7 @@ export default class EditTeacherDetails extends Component {
                                       type="tel"
                                       name="phone"
                                       id="phone"
-                                      maxlength="6"
+                                      maxlength="10"
                                       placeholder="Phone Number"
                                       value={values.phone}
                                       onChange={handleChange}

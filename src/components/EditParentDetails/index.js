@@ -15,7 +15,6 @@ import "../../css/ParentSignup.scss";
 // Icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPen } from "@fortawesome/free-solid-svg-icons";
-import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 
 // Component
 import Label from "../../components/core/Label";
@@ -220,7 +219,8 @@ class EditParentDetails extends Component {
 
     Api.get(`api/v1/user/${userId}`, { headers: { token: token } })
       .then((res) => {
-        const data = res.data.data.getOne;
+        console.log("resw", res);
+        const data = res?.data?.data?.getOne;
         this.setState({ parentId: data.parentId });
         Api.get(`api/v1/parent/${this.state.parentId}`, { headers: { token: token } })
           .then((res) => {
@@ -514,7 +514,7 @@ class EditParentDetails extends Component {
                                     <FormControl
                                       type="tel"
                                       placeholder="PhoneNumber"
-                                      maxlength="6"
+                                      maxlength="10"
                                       name="phoneNumber"
                                       id="phoneNumber"
                                       value={values.phone}
@@ -576,12 +576,6 @@ class EditParentDetails extends Component {
                                     onChange={(e) => {
                                       this.Index(e);
                                       setFieldValue("state", e);
-                                      // this.setState({
-                                      //   state: e,
-                                      //   stateValue: e.value,
-                                      //   cityValue: "",
-                                      //   city: "",
-                                      // });
                                     }}
                                     options={[
                                       {
@@ -603,10 +597,6 @@ class EditParentDetails extends Component {
                                     value={values.city}
                                     onChange={(e) => {
                                       setFieldValue("city", e);
-                                      // this.setState({
-                                      //   city: e,
-                                      //   cityValue: e.value,
-                                      // });
                                     }}
                                     options={[
                                       {
@@ -640,82 +630,6 @@ class EditParentDetails extends Component {
                             </div>
                             {this.state.details.loginType === "Email" && (
                               <div>
-                                {/* <div className="row d-flex justify-content-center">
-                                  <Col sm={6} xs={12}>
-                                    <Form.Group className="form-row" style={{ marginRight: 20, width: "100%" }}>
-                                      <Label notify={true}>Password</Label>
-                                      <InputGroup className="input-group ">
-                                        <FormControl
-                                          type={this.state.passwordShown ? "text" : "password"}
-                                          name="password"
-                                          id="password"
-                                          disabled={this.state.password}
-                                          value={values.password}
-                                          onChange={handleChange}
-                                          onBlur={handleBlur}
-                                          className="form-width"
-                                          placeholder="Password"
-                                          onCopy={(e) => {
-                                            e.preventDefault();
-                                            return false;
-                                          }}
-                                          onPaste={(e) => {
-                                            e.preventDefault();
-                                            return false;
-                                          }}
-                                        />
-                                        <InputGroup.Text>
-                                          <FontAwesomeIcon
-                                            icon={this.state.passwordShown ? faEye : faEyeSlash}
-                                            onClick={() => this.togglePasswordVisibility()}
-                                            size="1x"
-                                            style={{ cursor: "pointer" }}
-                                          />
-                                        </InputGroup.Text>
-                                      </InputGroup>
-                                      <ErrorMessage name="password" component="span" className="error text-danger" />
-                                    </Form.Group>
-                                  </Col>
-                                  <Col sm={6} xs={12}>
-                                    <Form.Group className="form-row" style={{ marginRight: 20, width: "100%" }}>
-                                      <Label notify={true}>Confirm Password</Label>
-                                      <InputGroup className="input-group ">
-                                        <FormControl
-                                          type={this.state.confirmPasswordShown ? "text" : "password"}
-                                          name="confirmPassword"
-                                          id="confirmPassword"
-                                          disabled={this.state.confirmPassword}
-                                          value={values.confirmPassword}
-                                          onChange={handleChange}
-                                          onCopy={(e) => {
-                                            e.preventDefault();
-                                            return false;
-                                          }}
-                                          onPaste={(e) => {
-                                            e.preventDefault();
-                                            return false;
-                                          }}
-                                          onBlur={handleBlur}
-                                          className="form-width"
-                                          placeholder="Confirm Password"
-                                        />
-                                        <InputGroup.Text>
-                                          <FontAwesomeIcon
-                                            icon={this.state.confirmPasswordShown ? faEye : faEyeSlash}
-                                            style={{ cursor: "pointer" }}
-                                            onClick={() => this.tooglePasswordVisibility()}
-                                            size="1x"
-                                          />
-                                        </InputGroup.Text>
-                                      </InputGroup>
-                                      <ErrorMessage
-                                        name="confirmPassword"
-                                        component="span"
-                                        className="error text-danger"
-                                      />
-                                    </Form.Group>
-                                  </Col>
-                                </div> */}
                                 <div className="mt-2">
                                   <Link
                                     className="link-decoration ps-1"

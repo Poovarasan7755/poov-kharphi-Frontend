@@ -88,7 +88,7 @@ function AdminDashboard() {
                 },
               }}
             />
-            <DashboardTiles label="Amount Received" count={adminDashboard?.totalAmount} url="/payment/list" />
+            <DashboardTiles label="Amount Received ($)" count={adminDashboard?.totalAmount} url="/payment/list" />
           </Row>
         )}
       </Container>

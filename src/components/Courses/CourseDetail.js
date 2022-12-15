@@ -1,11 +1,10 @@
 import React, { Component } from "react";
-import { Container, Row, Col, Card, Form, Modal, FormControl, InputGroup, Spinner } from "react-bootstrap";
+import { Container, Row, Col, Card, Form, Modal, Spinner } from "react-bootstrap";
 import Button from "@material-ui/core/Button";
 import { Divider } from "@material-ui/core";
 import { Link } from "react-router-dom";
-import { Formik, ErrorMessage } from "formik";
+import { Formik } from "formik";
 import Select from "react-select";
-import * as Yup from "yup";
 import { toast } from "react-toastify";
 import MaterialTable from "material-table";
 import { ThemeProvider } from "@material-ui/styles";
@@ -14,9 +13,7 @@ import Carousel from "react-elastic-carousel";
 import { convertFromRaw } from "draft-js";
 import { stateToHTML } from "draft-js-export-html";
 import Avatar from "react-avatar";
-import { GoogleLogin } from "react-google-login";
-import FacebookLogin from "react-facebook-login";
-import AddBox from "@material-ui/icons/AddBox";
+
 import moment from "moment-timezone";
 
 // Styles
@@ -32,12 +29,11 @@ import { tableIcons } from "../core/TableIcons";
 
 // Icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { faHeart as farfaHeart } from "@fortawesome/free-regular-svg-icons";
 import { faHeart as fasfaHeart } from "@fortawesome/free-solid-svg-icons";
 
 // Roles
-import { ROLES_PARENT, ROLES_STUDENT, ROLES_ADMIN, ROLES_TEACHER } from "../../constants/roles";
+import { ROLES_STUDENT } from "../../constants/roles";
 import { customStyles } from "../core/Selector";
 
 // Styles
@@ -74,20 +70,6 @@ const breakPoints = [
   { width: 1200, itemsToShow: 3, itemsToScroll: 3 },
   { width: 1440, itemsToShow: 5, itemsToScroll: 5 },
 ];
-
-//Validation
-const loginSchema = Yup.object().shape({
-  email: Yup.string().email("Enter Valid Email").required("Email Is Required"),
-  password: Yup.string()
-    .matches(
-      "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@*#$%^&])",
-      "Password Should contain Uppercase, Lowercase, Numbers and Special Characters"
-    )
-    .min(8)
-    .required("Password is Required"),
-});
-
-const CLIENT_ID = "901411976146-5r87ft9nah8tqdp3stg7uod39i1h66ft.apps.googleusercontent.com";
 
 export default class CourseDetail extends Component {
   constructor(props) {
@@ -299,8 +281,7 @@ export default class CourseDetail extends Component {
       },
     }).then((res) => {
       const data = res.data.data.studentList;
-      this.setState({ studentList: data });
-      this.setState({ isLoading: false });
+      this.setState({ studentList: data, isLoading: false });
     });
   };
 
@@ -371,8 +352,6 @@ export default class CourseDetail extends Component {
   };
 
   componentDidMount() {
-    const parentId = localStorage.getItem("parentId");
-    const studentId = localStorage.getItem("studentId");
     const role = localStorage.getItem("role");
 
     if (role === "parent") {
@@ -541,42 +520,6 @@ export default class CourseDetail extends Component {
             </Link>
           )}
         </>
-        // <div>
-        //   {this.state.role ? (
-        //     rowData?.isCheckout === true ? (
-        //       this.state.role === "admin" || this.state.role === "teacher" ? (
-        //         <Link to="#" className="purchased-course fw-bold">
-        //           Checkout
-        //         </Link>
-        //       ) : (
-        //         <Link to="#" className="purchased-course fw-bold">
-        //           Purchased
-        //         </Link>
-        //       )
-        //     ) : (
-        //       <Link
-        //         className="fw-bold checkout-clr"
-        //         to="#"
-        //         onClick={() => {
-        //           this.setState({
-        //             isLessonCheckOut: true,
-        //             courseId: rowData?.courseId,
-        //             lessonPayment: rowData?.lessonDiscountAmount,
-        //             lessonId: rowData?.id,
-        //             lessonNumber: rowData?.lessonNumber,
-        //             showMultiplePay: true,
-        //           });
-        //         }}
-        //       >
-        //         Checkout
-        //       </Link>
-        //     )
-        //   ) : (
-        //     <Link to={"/login"} className="fw-bold checkout-clr">
-        //       Checkout
-        //     </Link>
-        //   )}
-        // </div>
       ),
     },
   ];
@@ -588,13 +531,9 @@ export default class CourseDetail extends Component {
       scheduleDetail,
       isLoading,
       token,
-      isSubmit,
-      passwordShown,
       favourite,
       role,
       user,
-      showMultiplePay,
-      checkoutId,
       courseCheckout,
       studentList,
       currentDate,
@@ -613,13 +552,16 @@ export default class CourseDetail extends Component {
                 {role === "parent" ? (
                   studentList.length > 0 ? (
                     <div className="mt-3">
+                      {console.log("studentList", studentList)}
                       <label>Select Student :</label>
                       <Select
                         placeholder="Select Student"
                         styles={customStyles}
                         options={studentList?.map((list) => ({
+                          // value: list?.id,
                           value: list?.id,
                           label: `${list?.firstName} ${list?.lastName}`,
+                          isDisabled: list?.activeStatus,
                         }))}
                         onChange={(e) => {
                           this.getCourseDetails(e);
@@ -759,7 +701,6 @@ export default class CourseDetail extends Component {
                                         {scheduleDetail?.teacherId?.firstName} {scheduleDetail?.teacherId?.middleName}{" "}
                                         {scheduleDetail?.teacherId?.lastName}
                                       </h5>
-                                      {/* <h6 className="teachers-spec"> {scheduleDetail?.teacherId.speciality}</h6> */}
                                     </span>
                                   </Col>
                                 </Link>
@@ -821,13 +762,7 @@ export default class CourseDetail extends Component {
                                     )}
                                   </div>
                                 ) : (
-                                  <Link
-                                    className="enroll-link"
-                                    to={"/login"}
-                                    // onClick={() => {
-                                    //   this.setState({ show: true });
-                                    // }}
-                                  >
+                                  <Link className="enroll-link" to={"/login"}>
                                     Enroll
                                   </Link>
                                 )
@@ -896,7 +831,6 @@ export default class CourseDetail extends Component {
                                       {scheduleDetail?.teacherId?.firstName} {scheduleDetail?.teacherId?.middleName}{" "}
                                       {scheduleDetail?.teacherId?.lastName}
                                     </h5>
-                                    {/* <h6 className="teachers-spec"> {scheduleDetail?.teacherId.speciality}</h6> */}
                                   </span>
                                 </Col>
                               </div>
@@ -1035,189 +969,6 @@ export default class CourseDetail extends Component {
                     </ThemeProvider>
                   </div>
                 </Row>
-                {/* <Modal show={this.state.show} centered onHide={() => this.handleModal()}>
-              <Modal.Body id="contained-modal-title-vcenter">
-                <div className="container py-3 px-3">
-                  <div className="row flex-direction-row">
-                    <h4
-                      className="d-flex justify-content-center mb-2"
-                      style={{ fontFamily: "none", fontWeight: "bold" }}
-                    >
-                      Log In
-                    </h4>
-                    <div className="google-login d-flex justify-content-center pt-3">
-                      <GoogleLogin
-                        clientId={CLIENT_ID}
-                        buttonText="Log In with Google"
-                        onSuccess={this.responseGoogleSuccess}
-                        onFailure={this.responseGoogleError}
-                        isSignedIn={false}
-                        cookiePolicy={"single_host_origin"}
-                      />
-                    </div>
-                    <div className="pt-3">
-                      <FacebookLogin
-                        appId="766552864322859"
-                        autoLoad={false}
-                        textButton="Log In with Facebook"
-                        fields="first_name,last_name,email,picture"
-                        scope="public_profile,email,user_friends"
-                        callback={this.responseFacebook}
-                        icon="fa-facebook"
-                      />
-                    </div>
-                    <hr className="or-divider my-4" />
-                  </div>
-                  <Formik
-                    initialValues={{
-                      email: "",
-                      password: "",
-                    }}
-                    validationSchema={loginSchema}
-                    onSubmit={(values, { resetForm }) => this.loginUser(values, { resetForm })}
-                  >
-                    {(formik) => {
-                      const { values, handleChange, handleSubmit, handleBlur, isValid } = formik;
-                      return (
-                        <div className="mt-0">
-                          <Form className="category-form-style" onSubmit={handleSubmit}>
-                            <Row>
-                              <Col md={12}>
-                                <Form.Group className="form-row mb-3" style={{ width: "100%" }}>
-                                  <Label notify={true}>Email Address</Label>
-                                  <FormControl
-                                    type="type"
-                                    name="email"
-                                    id="email"
-                                    style={{ textTransform: "lowercase" }}
-                                    value={values.email}
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                    placeholder="Email Address"
-                                  />
-                                  <ErrorMessage
-                                    name="email"
-                                    component="span"
-                                    className="error text-danger error-message"
-                                  />
-                                </Form.Group>
-                              </Col>
-                              <Col md={12}>
-                                <Form.Group className="form-row mb-3" style={{ width: "100%" }}>
-                                  <Label notify={true}>Password</Label>
-                                  <InputGroup className="input-group ">
-                                    <FormControl
-                                      type={passwordShown ? "text" : "password"}
-                                      name="password"
-                                      id="password"
-                                      placeholder="Password"
-                                      value={values.password}
-                                      onChange={handleChange}
-                                      onBlur={handleBlur}
-                                    />
-                                    <InputGroup.Text>
-                                      <FontAwesomeIcon
-                                        icon={passwordShown ? faEye : faEyeSlash}
-                                        onClick={() => this.togglePasswordVisibility()}
-                                        size="1x"
-                                      />
-                                    </InputGroup.Text>
-                                  </InputGroup>
-                                  <ErrorMessage
-                                    name="password"
-                                    component="span"
-                                    className="error text-danger error-message"
-                                  />
-                                </Form.Group>
-                              </Col>
-                            </Row>
-                          </Form>
-                          <div className="d-flex justify-content-end pe-4">
-                            <Link
-                              className="link-decoration"
-                              to={{
-                                pathname: "/forgot/password",
-                              }}
-                            >
-                              Forgot Password
-                            </Link>
-                          </div>
-                          <div className="col text-center">
-                            <Button
-                              type="submit"
-                              disabled={!isValid || isSubmit}
-                              fullWidth
-                              variant="contained"
-                              className={`${!isValid || isSubmit ? "popup-button-disable" : "popup-button-active"}`}
-                              onClick={handleSubmit}
-                              style={{
-                                borderRadius: 5,
-                                marginTop: 10,
-                                marginBottom: 25,
-                              }}
-                            >
-                              Log IN
-                            </Button>
-                          </div>
-                          <p className="mt-0">
-                            Not Signed Up Already? Click here to Sign up as{" "}
-                            <Link
-                              className="link-decoration"
-                              style={{
-                                fontSize: 18,
-                                fontWeight: "bold",
-                                fontFamily: "none",
-                              }}
-                              to={{
-                                pathname: `/parent/signup`,
-                                state: {
-                                  courseId: courseData?.id,
-                                },
-                                search: `${courseData?.aliasName}`,
-                              }}
-                            >
-                              Parent,
-                            </Link>{" "}
-                            <Link
-                              className="link-decoration "
-                              style={{
-                                fontSize: 18,
-                                fontWeight: "bold",
-                                fontFamily: "none",
-                              }}
-                              to={{
-                                pathname: `/student/signup`,
-                                state: {
-                                  courseId: courseData?.id,
-                                  aliasName: this.state.aliasName,
-                                },
-                                search: `${courseData?.aliasName}`,
-                              }}
-                            >
-                              Student,
-                            </Link>{" "}
-                            <Link
-                              className="link-decoration "
-                              style={{
-                                fontSize: 18,
-                                fontWeight: "bold",
-                                fontFamily: "none",
-                              }}
-                              to={{
-                                pathname: `/teacher/signup`,
-                              }}
-                            >
-                              Teacher .
-                            </Link>
-                          </p>
-                        </div>
-                      );
-                    }}
-                  </Formik>
-                </div>
-              </Modal.Body>
-            </Modal> */}
-
                 {this.state.spinner && (
                   <div className="spanner">
                     <Spinner animation="grow" variant="light" />

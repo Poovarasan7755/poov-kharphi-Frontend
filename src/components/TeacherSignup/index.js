@@ -9,27 +9,17 @@ import { Editor } from "react-draft-wysiwyg";
 import { EditorState } from "draft-js";
 import { convertToRaw } from "draft-js";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
-import { GoogleLogin } from "react-google-login";
-import FacebookLogin from "react-facebook-login";
-
-import InputAdornment from "@material-ui/core/InputAdornment";
-import TextField from "@material-ui/core/TextField";
-
 // Styles
 import "../../css/ParentSignup.scss";
-
 // Api
 import Api from "../../Api";
-
 // Component
 import Label from "../../components/core/Label";
-
 // Icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChalkboardTeacher } from "@fortawesome/free-solid-svg-icons";
 import { faEye, faEyeSlash, faRedoAlt } from "@fortawesome/free-solid-svg-icons";
 import { customStyles } from "../core/Selector";
-
 // Validations
 const SignInSchema = Yup.object().shape({
   firstName: Yup.string()
@@ -47,36 +37,15 @@ const SignInSchema = Yup.object().shape({
     .matches(/^[A-Z]/, "First Letter Must Be In Capital")
     .required("Last Name Is Required"),
 
-  // city: Yup.string().required("City is Required"),
-
-  // state: Yup.string().required("state is Required"),
-
-  // zipCode: Yup.string()
-  //   .required("Zipcode is Required")
-  //   .matches(/^[0-9]+$/, "Must be only digits")
-  //   .min(5, "Must be exactly 5 digits")
-  //   .max(5, "Must be exactly 5 digits"),
-  // alternativeEmail: Yup.string()
-  //     .email("Enter Valid Email")
-  //   .nullable(),
-
-  // address1: Yup.string().required("Address Line1 is Required"),
-
-  // address2: Yup.string().required("Address Line2 is Required"),
-
   phone: Yup.string()
     .matches(/^[0-9\s]+$/, "Enter Valid Phone Number")
     .max(10, "Enter valid number")
     .min(10, "Enter valid number")
     .length(10)
     .required("Phone Number Is Required"),
-
   email: Yup.string().email("Enter Valid Email").required("Email Is Required"),
-
   speciality: Yup.string().required("Speciality Is Required"),
-
   descriptionValue: Yup.string().required("Speciality Description Is Required"),
-
   // hearAboutUs:Yup.string().required("Required Field"),
   userName: Yup.string().required("User Name Is Required"),
   password: Yup.string()
@@ -99,8 +68,6 @@ const SignInSchema = Yup.object().shape({
     .min(6, "Captcha required minimum 6 characters ")
     .max(6, "Captcha maximum 6 characters"),
 });
-
-const CLIENT_ID = "901411976146-5r87ft9nah8tqdp3stg7uod39i1h66ft.apps.googleusercontent.com";
 class TeacherSignup extends Component {
   constructor(props) {
     super(props);
@@ -162,12 +129,6 @@ class TeacherSignup extends Component {
         email: email,
         password: values.password,
         confirmPassword: values.confirmPassword,
-        // address1: values.address1,
-        // address2: values.address2,
-        // city: values.city,
-        // state: values.state,
-        // zipCode: values.zipCode,
-        // alternativeEmail:alternativeEmail,
         hearAboutUs: this.state.hearAboutUs,
         speciality: values.speciality,
         userName: this.state.userName,
@@ -537,122 +498,7 @@ class TeacherSignup extends Component {
                               </Form.Group>
                             </Col>
                           </div>
-                          <div>
-                            {/* <div className="d-flex justify-content-center mb-3">
-                          <Form.Group
-                            className="form-row mb-3"
-                            style={{ marginRight: 20, width: "50%" }}
-                          >
-                             <Label notify={true}>Address Line 1</Label>
-                            <br />
-                            <FormControl
-                              type="type"
-                              name="address1"
-                              id="address1"
-                              placeholder="Enter Address 1"
-                              value={values.address1}
-                              onChange={handleChange}
-                              onBlur={handleBlur}
-                              className="form-width"
-                            />
-                            <ErrorMessage name="address1" component="span" className="error text-danger" />
-                          </Form.Group>
-                          <Form.Group
-                            className="form-row mb-3"
-                            style={{ width: "50%" }}
-                          >
-                            <Label notify={true}>Address Line 2</Label>
-                            <br />
-                            <FormControl
-                              type="text"
-                              name="address2"
-                              id="address2"
-                              placeholder="Enter Address 2"
-                              value={values.address2}
-                              onChange={handleChange}
-                              onBlur={handleBlur}
-                              className="form-width"
-                            />
-                            <ErrorMessage name="address2" component="span" className="error text-danger" />
-                          </Form.Group>
-                        </div>
-                        <div className="d-flex justify-content-center  mb-3">
-                          <Form.Group
-                            className="form-row mb-3"
-                            style={{ marginRight: 20, width: "50%" }}
-                          >
-                             <Label notify={true}>City</Label>
-                            <br />
-                            <FormControl
-                              type="type"
-                              name="city"
-                              id="city"
-                              placeholder="Enter Your City"
-                              value={values.city}
-                              onChange={handleChange}
-                              onBlur={handleBlur}
-                              className="form-width"
-                            />
-                            <ErrorMessage name="city" component="span" className="error text-danger" />
-                          </Form.Group>
-                          <Form.Group
-                            className="form-row mb-3"
-                            style={{ width: "50%" }}
-                          >
-                             <Label notify={true}>State</Label>
-                            <br />
-                            <FormControl
-                              type="type"
-                              name="state"
-                              id="state"
-                              placeholder="Enter Your State"
-                              value={values.state}
-                              onChange={handleChange}
-                              onBlur={handleBlur}
-                              className="form-width"
-                            />
-                            <ErrorMessage name="state" component="span" className="error text-danger" />
-                          </Form.Group>
-                        </div>
-                        <div className="d-flex justify-content-center mb-3">
-                          <Form.Group
-                            className="form-row mb-3"
-                            style={{ marginRight: 20, width: "50%" }}
-                          >
-                             <Label notify={true}>Zip Code</Label>
-                            <br />
-                            <FormControl
-                              type="text"
-                              name="zipCode"
-                              id="zipCode"
-                              placeholder="Enter Your ZipCode"
-                              value={values.zipCode}
-                              onChange={handleChange}
-                              onBlur={handleBlur}
-                              className="form-width"
-                            />
-                            <ErrorMessage name="zipCode" component="span" className="error text-danger" />
-                          </Form.Group>
-                          <Form.Group
-                            className="form-row mb-3"
-                            style={{ width: "50%" }}
-                          >
-                            <Label notify={true}>Primary Email</Label> <br />
-                            <FormControl
-                              type="alternativeEmail"
-                              name="alternativeEmail"
-                              id="alternativeEmail"
-                              style={{ textTransform: "lowercase" }}
-                              placeholder="Enter Your Alternative Email"
-                              value={values.alternativeEmail}
-                              onChange={handleChange}
-                              onBlur={handleBlur}
-                              className="form-width"
-                            />
-                            <ErrorMessage name="alternativeEmail" component="span" className="error text-danger" />
-                          </Form.Group>
-                        </div> */}
-                          </div>
+                          <div></div>
                           <div className="row d-flex justify-content-center">
                             <Col xs={12} sm={6}>
                               <Form.Group className="form-row mb-3">
@@ -867,6 +713,7 @@ class TeacherSignup extends Component {
                           </div>
                           <div className="d-flex justify-content-end mb-5">
                             <Button
+                              style={{ height: "initial" }}
                               variant="outlined"
                               className="me-2 Kharpi-cancel-btn"
                               onClick={() => this.props.history.goBack()}
