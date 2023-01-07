@@ -168,15 +168,17 @@ const DashboardSidebar = ({ onClick, open, sidebar }) => {
                     <div>
                       <div className="d-flex flex-direction-row mb-3">
                         <div className="mx-1">
+                          {console.log("image", image)}
                           {image ? (
-                            <Avatar
-                              src={image}
-                              size="50"
-                              onClick={() => setshow(!show)}
-                              round={true}
-                              color="white"
-                              className="avatar-style"
-                            />
+                            // <Avatar
+                            //   src={image}
+                            //   size="50"
+                            //   onClick={() => setshow(!show)}
+                            //   round={true}
+                            //   color="white"
+                            //   className="avatar-style"
+                            // />
+                            <img src={image} width="50" height="50" style={{ borderRadius: "50%" }} />
                           ) : (
                             <Avatar
                               name={`${firstName} ${lastName}`}
@@ -332,14 +334,15 @@ const DashboardSidebar = ({ onClick, open, sidebar }) => {
                       <div className="d-flex flex-direction-row mb-4">
                         <div className="mx-1">
                           {image ? (
-                            <Avatar
-                              src={image}
-                              size="50"
-                              onClick={() => setshow(!show)}
-                              round={true}
-                              color="white"
-                              className="avatar-style"
-                            />
+                            // <Avatar
+                            //   src={image}
+                            //   size="50"
+                            //   onClick={() => setshow(!show)}
+                            //   round={true}
+                            //   color="white"
+                            //   className="avatar-style"
+                            // />
+                            <img src={image} width="50" height="50" style={{ borderRadius: "50%" }} />
                           ) : (
                             <Avatar
                               name={`${firstName} ${lastName}`}
@@ -591,14 +594,15 @@ const DashboardSidebar = ({ onClick, open, sidebar }) => {
                   <div className="d-flex flex-direction-row mb-4">
                     <div className="mx-1">
                       {image ? (
-                        <Avatar
-                          src={image}
-                          size="50"
-                          onClick={() => setshow(!show)}
-                          round={true}
-                          color="white"
-                          className="avatar-style"
-                        />
+                        // <Avatar
+                        //   src={image}
+                        //   size="50"
+                        //   onClick={() => setshow(!show)}
+                        //   round={true}
+                        //   color="white"
+                        //   className="avatar-style"
+                        // />
+                        <img src={image} width="50" height="50" style={{ borderRadius: "50%" }} />
                       ) : (
                         <Avatar
                           name={`${firstName} ${lastName}`}

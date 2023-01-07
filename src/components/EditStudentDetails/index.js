@@ -115,9 +115,7 @@ const GoogleAndFacebookSignInSchema = Yup.object().shape({
     )
     .matches(/^[0-9]{5}$/, "Zip Code Must Be 5 Digits"),
 
-  email: Yup.string()
-    .email("Enter Valid Email")
-    .required("Email Is Required"),
+  email: Yup.string().email("Enter Valid Email").required("Email Is Required"),
 
   dob: Yup.string().required("Date Of Birth Is Required"),
 });
@@ -197,6 +195,7 @@ class EditStudentDetails extends Component {
           if (status === 201) {
             toast.success("Profile Upload Successfully!...");
             this.studentDetails();
+            window.location.reload();
           }
         })
         .catch((error) => {
@@ -231,6 +230,7 @@ class EditStudentDetails extends Component {
     })
       .then((response) => {
         this.studentDetails();
+        window.location.reload();
       })
       .catch((error) => {
         const errorStatus = error?.response?.status;
@@ -261,6 +261,8 @@ class EditStudentDetails extends Component {
     const token = localStorage.getItem("sessionId");
     Api.get(`/api/v1/student/${this.state.studentId}`, { headers: { token: token } })
       .then((res) => {
+        console.log("res", res);
+
         const data = res.data.data.getOne;
         this.setState({
           details: data,
@@ -447,13 +449,20 @@ class EditStudentDetails extends Component {
                                 <Dropdown.Toggle className="teacher-menu-dropdown p-0" varient="link">
                                   <div>
                                     <div>
+                                      {console.log("this.state.imagePreview", this.state.imagePreview)}
                                       {this.state.imagePreview ? (
-                                        <Avatar
+                                        // <Avatar
+                                        //   src={this.state.imagePreview}
+                                        //   size="220"
+                                        //   round={true}
+                                        //   color="silver"
+                                        //   className="image-size"
+                                        // />
+                                        <img
                                           src={this.state.imagePreview}
-                                          size="220"
-                                          round={true}
-                                          color="silver"
-                                          className="image-size"
+                                          width="220"
+                                          height="220"
+                                          style={{ borderRadius: "50%" }}
                                         />
                                       ) : (
                                         <Avatar

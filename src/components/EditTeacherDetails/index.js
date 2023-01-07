@@ -227,6 +227,7 @@ export default class EditTeacherDetails extends Component {
     })
       .then((response) => {
         this.getTeacherDetail();
+        window.location.reload();
       })
       .catch((error) => {
         const errorStatus = error?.response?.status;
@@ -633,12 +634,18 @@ export default class EditTeacherDetails extends Component {
                                     <div>
                                       <div>
                                         {this.state.imagePreview ? (
-                                          <Avatar
+                                          // <Avatar
+                                          //   src={this.state.imagePreview}
+                                          //   size="150"
+                                          //   round={true}
+                                          //   color="silver"
+                                          //   className="image-size"
+                                          // />
+                                          <img
                                             src={this.state.imagePreview}
-                                            size="150"
-                                            round={true}
-                                            color="silver"
-                                            className="image-size"
+                                            width="220"
+                                            height="220"
+                                            style={{ borderRadius: "50%" }}
                                           />
                                         ) : (
                                           <Avatar src={profile} size="150" round={true} color="silver" />

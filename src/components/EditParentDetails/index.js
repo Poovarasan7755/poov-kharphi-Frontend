@@ -160,6 +160,7 @@ class EditParentDetails extends Component {
           if (status === 201) {
             toast.success("Profile Upload Successfully!...");
             this.parentDetails();
+            window.location.reload();
           }
         })
         .catch((error) => {
@@ -194,6 +195,7 @@ class EditParentDetails extends Component {
       },
     }).then((response) => {
       this.parentDetails();
+      window.location.reload();
     });
     this.setState({ imagePreview: "" });
   };
@@ -375,12 +377,18 @@ class EditParentDetails extends Component {
                                 <div>
                                   <div>
                                     {this.state.imagePreview ? (
-                                      <Avatar
+                                      // <Avatar
+                                      //   src={this.state.imagePreview}
+                                      //   size="220"
+                                      //   round={true}
+                                      //   color="silver"
+                                      //   className="image-size"
+                                      // />
+                                      <img
                                         src={this.state.imagePreview}
-                                        size="220"
-                                        round={true}
-                                        color="silver"
-                                        className="image-size"
+                                        width="220"
+                                        height="220"
+                                        style={{ borderRadius: "50%" }}
                                       />
                                     ) : (
                                       <Avatar

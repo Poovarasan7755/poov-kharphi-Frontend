@@ -174,6 +174,7 @@ export default class CoursesCreation extends Component {
         if (status === 201) {
           if (categoryImage) {
             const categoryId = response.data.data.createCategory.id;
+            console.log('category')
             Api.patch("api/v1/category/image/upload", {
               categoryId: categoryId,
               image: this.state.categoryImagePreview,
