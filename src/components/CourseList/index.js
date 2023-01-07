@@ -104,10 +104,10 @@ export default class CourseList extends Component {
 
   // Log out
   logout = () => {
-   setTimeout(() => {
+    setTimeout(() => {
       localStorage.clear(this.props.history.push("/kharpi"));
       window.location.reload();
-   }, 2000);
+    }, 2000);
   };
 
   componentDidMount() {

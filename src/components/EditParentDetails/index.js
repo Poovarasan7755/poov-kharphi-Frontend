@@ -219,7 +219,6 @@ class EditParentDetails extends Component {
 
     Api.get(`api/v1/user/${userId}`, { headers: { token: token } })
       .then((res) => {
-        console.log("resw", res);
         const data = res?.data?.data?.getOne;
         this.setState({ parentId: data.parentId });
         Api.get(`api/v1/parent/${this.state.parentId}`, { headers: { token: token } })
@@ -279,7 +278,7 @@ class EditParentDetails extends Component {
       firstName: values.firstName,
       lastName: values.lastName,
       middleName: values.middleName ? values.middleName : "",
-      phone: values.phone ? values.phone : "",
+      phone: values.phoneNumber ? values.phoneNumber : "",
       email: email,
       address1: values.address1 ? values.address1 : "",
       address2: values.address2 ? values.address2 : "",
@@ -517,7 +516,7 @@ class EditParentDetails extends Component {
                                       maxlength="10"
                                       name="phoneNumber"
                                       id="phoneNumber"
-                                      value={values.phone}
+                                      value={values.phoneNumber}
                                       onChange={handleChange}
                                       onBlur={handleBlur}
                                       className="form-width"

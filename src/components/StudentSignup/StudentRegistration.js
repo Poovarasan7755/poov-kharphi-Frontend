@@ -47,11 +47,12 @@ const StudentRegistration = (props) => {
 
   // const CLIENT_ID = "901411976146-5r87ft9nah8tqdp3stg7uod39i1h66ft.apps.googleusercontent.com";
 
-    const CLIENT_ID = "643156914414-497ec28oqlhespf1v6jkqh9sn9hv22b4.apps.googleusercontent.com";
-
+  // const CLIENT_ID = "643156914414-497ec28oqlhespf1v6jkqh9sn9hv22b4.apps.googleusercontent.com";
+     const CLIENT_ID = "154233691399-c6qq8md89obd5eetk01f3lc7ieqe7ui5.apps.googleusercontent.com";
 
   // Success Handler
   const responseGoogleSuccess = (response) => {
+    console.log("response", response);
     Api.post("/api/v1/student/signup", {
       tokenId: response.tokenId,
       googleId: response.googleId,

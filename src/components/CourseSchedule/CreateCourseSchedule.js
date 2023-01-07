@@ -171,7 +171,6 @@ export default class CreateCourseSchedule extends Component {
   };
   // Submit form
   submitForm = (values) => {
-    console.log("values", values);
     const token = localStorage.getItem("sessionId");
     this.setState({ isSubmit: true });
     const startTimeValue = moment(values.startTime, "LLLL").format("LT");

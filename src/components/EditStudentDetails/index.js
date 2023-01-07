@@ -314,7 +314,7 @@ class EditStudentDetails extends Component {
       middleName: values.middleName ? values.middleName : "",
       dob: dateValue,
       gender: gender,
-      phone: values.phone ? values.phone : "",
+      phone: values.phoneNumber ? values.phoneNumber : "",
       email: email,
       address1: values.address1 ? values.address1 : "",
       address2: values.address2 ? values.address2 : "",
@@ -589,7 +589,7 @@ class EditStudentDetails extends Component {
                                         maxlength="10"
                                         name="phoneNumber"
                                         id="phoneNumber"
-                                        value={values.phone}
+                                        value={values.phoneNumber}
                                         onChange={handleChange}
                                         onBlur={handleBlur}
                                         className="form-width"

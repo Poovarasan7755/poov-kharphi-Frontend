@@ -137,7 +137,6 @@ class CourseCheckoutScreen extends Component {
     const parentId = localStorage.getItem("parentId");
     Api.get(`api/v1/parent/${parentId}`, { headers: { token: token } })
       .then((response) => {
-        console.log("response", response);
         const data = response.data.data.getOne;
         this.setState({
           parentAddress: data,

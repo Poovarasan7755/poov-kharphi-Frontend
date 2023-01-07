@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Formik, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import Button from "@material-ui/core/Button";
-import { InputGroup, FormControl, Form, Container, Modal, Col, Row } from "react-bootstrap";
+import { InputGroup, FormControl, Form, Container, Modal, Col, Row, FormGroup } from "react-bootstrap";
 import Select from "react-select";
 import { toast } from "react-toastify";
 import { Editor } from "react-draft-wysiwyg";
@@ -28,13 +28,11 @@ import { customStyles } from "../core/Selector";
 
 // Validation
 const SignInSchema = Yup.object().shape({
-  type: Yup.object().required("Type Name Is Required"),
+  type: Yup.string().required("Type Name Is Required"),
   category: Yup.object().required("Category Name Is Required"),
   courseName: Yup.string().required("Course Name Is Required"),
   courseImage: Yup.mixed().required("Image Is Required"),
-  duration: Yup.object()
-    .required("Duration is Required")
-    .nullable(),
+  duration: Yup.object().required("Duration is Required").nullable(),
 });
 
 export default class EditCourses extends Component {
@@ -329,7 +327,7 @@ export default class EditCourses extends Component {
                     courseName: courseData.name,
                     description: "",
                     descriptionValue: this.state.descriptionValue,
-                    type: this.state.type,
+                    type: this.state.type.value,
                     duration: this.state.duration,
                     courseImage: this.state.imagePreview,
                   }}
@@ -433,24 +431,26 @@ export default class EditCourses extends Component {
                                   <Form.Group className="form-row" style={{ marginRight: 20, width: "100%" }}>
                                     <Label notify={true}>Status</Label>
                                     <br />
-                                    <Select
+                                    <FormControl
                                       value={values.type}
                                       styles={customStyles}
                                       placeholder="Select Status"
                                       name="type"
-                                      onChange={(e) => {
-                                        setFieldValue("type", e);
-                                        this.setState({
-                                          typeId: e.value,
-                                        });
-                                      }}
-                                      options={[
-                                        { value: "Draft", label: "Draft" },
-                                        {
-                                          value: "Publish",
-                                          label: "Publish",
-                                        },
-                                      ]}
+                                      onChange={handleChange}
+                                      disabled
+                                      // onChange={(e) => {
+                                      //   setFieldValue("type", e);
+                                      //   this.setState({
+                                      //     typeId: e.value,
+                                      //   });
+                                      // }}
+                                      // options={[
+                                      //   { value: "Draft", label: "Draft" },
+                                      //   {
+                                      //     value: "Publish",
+                                      //     label: "Publish",
+                                      //   },
+                                      // ]}
                                     />
                                     <ErrorMessage
                                       name="type"

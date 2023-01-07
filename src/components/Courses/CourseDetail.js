@@ -30,7 +30,7 @@ import { tableIcons } from "../core/TableIcons";
 // Icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart as farfaHeart } from "@fortawesome/free-regular-svg-icons";
-import { faHeart as fasfaHeart } from "@fortawesome/free-solid-svg-icons";
+import { faHeart as fasfaHeart, faWarning } from "@fortawesome/free-solid-svg-icons";
 
 // Roles
 import { ROLES_STUDENT } from "../../constants/roles";
@@ -95,6 +95,7 @@ export default class CourseDetail extends Component {
       checkoutLesson: [],
       checkoutId: [],
       isLessonCheckOut: false,
+      isSchedule: false,
       courseId: "",
       lessonPayment: "",
       lessonIds: [],
@@ -105,6 +106,7 @@ export default class CourseDetail extends Component {
       lessonScheduleId: "",
       courseCheckout: "",
       studentList: "",
+      date: new Date().toLocaleString(),
     };
   }
 
@@ -118,6 +120,10 @@ export default class CourseDetail extends Component {
 
   ModalClose = () => {
     this.setState({ isLessonCheckOut: false });
+  };
+
+  scheduleClose = () => {
+    this.setState({ isSchedule: false });
   };
 
   convertFromJSONToHTML = (value) => {
@@ -392,6 +398,11 @@ export default class CourseDetail extends Component {
   };
 
   lessonCheckOut = () => {
+    const sessionId = localStorage.getItem("sessionId");
+    const cDate = Date.now();
+
+    const currentDate = moment(cDate).tz("America/Chicago").format("ll");
+    this.setState({ token: sessionId, currentDate: currentDate });
     const { multiLessonData, courseId, aliasName, lessonScheduleId, lessonPayment } = this.state;
     let lessonIds = [];
 
@@ -401,7 +412,7 @@ export default class CourseDetail extends Component {
 
     let lessonId = [];
     lessonId.push({ id: this.state.lessonIds, lessonDiscountAmount: lessonPayment });
-    if (lessonScheduleId) {
+    if (currentDate < lessonScheduleId.startDate) {
       this.props.history.push({
         pathname: `/course/checkout/${aliasName}`,
         state: {
@@ -411,6 +422,8 @@ export default class CourseDetail extends Component {
           lessonIds: this.state.lessonIds.length > 0 ? lessonId : lessonIds,
         },
       });
+    } else {
+      this.setState({ isSchedule: true });
     }
   };
 
@@ -540,7 +553,6 @@ export default class CourseDetail extends Component {
     } = this.state;
     const studentId = localStorage.getItem("studentId");
     const parentId = localStorage.getItem("parentId");
-
     return (
       <Container className="py-3">
         {isLoading ? (
@@ -552,7 +564,6 @@ export default class CourseDetail extends Component {
                 {role === "parent" ? (
                   studentList.length > 0 ? (
                     <div className="mt-3">
-                      {console.log("studentList", studentList)}
                       <label>Select Student :</label>
                       <Select
                         placeholder="Select Student"
@@ -736,7 +747,7 @@ export default class CourseDetail extends Component {
                                       <Link className="enroll-link-disable" disabled>
                                         Enroll
                                       </Link>
-                                    ) : currentDate < scheduleDetail.startDate ? (
+                                    ) : currentDate > scheduleDetail.startDate ? (
                                       <Link className="enroll-link-disable" disabled>
                                         Enroll
                                       </Link>
@@ -959,7 +970,10 @@ export default class CourseDetail extends Component {
                           selectionProps: (rowData) =>
                             rowData.isCheckout === true
                               ? {
-                                  disabled: rowData.isCheckout === true ? true : false,
+                                  disabled:
+                                    rowData.isCheckout === true
+                                      ? true || currentDate > scheduleDetail.startDate
+                                      : false,
                                   color: "success",
                                   checked: rowData.isCheckout === true ? true : false,
                                 }
@@ -1013,26 +1027,32 @@ export default class CourseDetail extends Component {
                                           });
                                         }}
                                         options={scheduleDetail.map((item) => ({
-                                          label: item.teacherId
-                                            ? item.startDate +
-                                              "-" +
-                                              item.endTime +
-                                              " to " +
-                                              item.endTime +
-                                              " (" +
-                                              item.weeklyOn +
-                                              ")"
-                                            : null,
-                                          value: item.teacherId
-                                            ? item.startDate +
-                                              "-" +
-                                              item.endTime +
-                                              " to " +
-                                              item.endTime +
-                                              " (" +
-                                              item.weeklyOn +
-                                              ")"
-                                            : null,
+                                          label:
+                                            currentDate > item.startDate
+                                              ? "Schedule Expired"
+                                              : item.teacherId
+                                              ? item.startDate +
+                                                "-" +
+                                                item.endTime +
+                                                " to " +
+                                                item.endTime +
+                                                " (" +
+                                                item.weeklyOn +
+                                                ")"
+                                              : null,
+                                          value:
+                                            currentDate > item.startDate
+                                              ? "Schedule Expired"
+                                              : item.teacherId
+                                              ? item.startDate +
+                                                "-" +
+                                                item.endTime +
+                                                " to " +
+                                                item.endTime +
+                                                " (" +
+                                                item.weeklyOn +
+                                                ")"
+                                              : null,
                                           lessonScheduleId: item,
                                         }))}
                                       />
@@ -1084,6 +1104,21 @@ export default class CourseDetail extends Component {
                       </Formik>
                     </div>
                   </Modal.Body>
+                </Modal>
+                <Modal
+                  show={this.state.isSchedule}
+                  centered
+                  onHide={() => {
+                    this.scheduleClose();
+                  }}
+                >
+                  <Modal.Body className="d-flex justify-content-center">
+                    <FontAwesomeIcon className="text-center" size={50} icon={faWarning} />
+                    <p>Please select valid schedule</p>
+                  </Modal.Body>
+                  <Modal.Footer className="d-flex justify-content-center">
+                    <Button onClick={this.scheduleClose}>OK</Button>
+                  </Modal.Footer>
                 </Modal>
               </div>
             ) : null}
