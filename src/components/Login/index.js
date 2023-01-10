@@ -33,6 +33,8 @@ const Login = () => {
   const history = useHistory();
 
   const CLIENT_ID = "901411976146-5r87ft9nah8tqdp3stg7uod39i1h66ft.apps.googleusercontent.com";
+  // const CLIENT_ID = "313952593707-aoidfjiq5fnsctc88ifjr5chi44e9e7q.apps.googleusercontent.com";
+  // const CLIENT_ID = "154233691399-c6qq8md89obd5eetk01f3lc7ieqe7ui5.apps.googleusercontent.com";
 
   // const CLIENT_ID = "643156914414-497ec28oqlhespf1v6jkqh9sn9hv22b4.apps.googleusercontent.com";
 
@@ -42,6 +44,8 @@ const Login = () => {
 
   // Success Handler
   const responseGoogleSuccess = (response) => {
+    console.log("response", response);
+
     Api.post("/api/v1/user/login", {
       tokenId: response.tokenId,
       googleId: response.googleId,
@@ -140,7 +144,10 @@ const Login = () => {
   };
 
   // Error Handler
-  const responseGoogleError = (response) => {};
+  const responseGoogleError = (response) => {
+    console.log("response", response);
+    alert(response);
+  };
 
   // Sub
   const submit = (values, { resetForm }) => {

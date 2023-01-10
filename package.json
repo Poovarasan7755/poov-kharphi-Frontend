@@ -34,6 +34,7 @@
     "draft-js-export-html": "^1.4.1",
     "es6-shim": "^0.35.6",
     "formik": "^2.2.9",
+    "gapi-script": "^1.2.0",
     "history": "^5.0.1",
     "material-table": "^1.69.3",
     "moment": "^2.29.1",

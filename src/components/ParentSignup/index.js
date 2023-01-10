@@ -7,6 +7,7 @@ import * as Yup from "yup";
 import { toast } from "react-toastify";
 import { GoogleLogin } from "react-google-login";
 import FacebookLogin from "react-facebook-login";
+import { gapi } from "gapi-script";
 
 // Styles
 import "../../css/ParentSignup.scss";
@@ -26,10 +27,16 @@ const ParentSignup = (props) => {
   const [confirmPasswordShown, setConfirmPasswordShown] = useState(false);
   const [isLoggedIn, setisLoggedIn] = useState(false);
 
-  const CLIENT_ID = "901411976146-5r87ft9nah8tqdp3stg7uod39i1h66ft.apps.googleusercontent.com";
+  let scope = "https://www.googleapis.com/auth/cloud-platform.read-only";
+  const CLIENT_ID = "313952593707-fcr3sl5satv8bb6e2kg9n0363mnom208.apps.googleusercontent.com";
+
+  // const CLIENT_ID = "901411976146-5r87ft9nah8tqdp3stg7uod39i1h66ft.apps.googleusercontent.com";
+  // const CLIENT_ID = "313952593707-aoidfjiq5fnsctc88ifjr5chi44e9e7q.apps.googleusercontent.com";
+  // const CLIENT_ID = "154233691399-c6qq8md89obd5eetk01f3lc7ieqe7ui5.apps.googleusercontent.com";
 
   // Success Handler
   const responseGoogleSuccess = (response) => {
+    console.log("response", response);
     Api.post("api/v1/parent/signup", {
       tokenId: response.tokenId,
       googleId: response.googleId,
@@ -105,7 +112,10 @@ const ParentSignup = (props) => {
   };
 
   // Error Handler
-  const responseGoogleError = (response) => {};
+  const responseGoogleError = (response) => {
+    console.log("response", response);
+    alert(response);
+  };
 
   const [captcha, setCaptcha] = useState("");
 
@@ -128,6 +138,13 @@ const ParentSignup = (props) => {
 
   useEffect(() => {
     getRandomCaptcha();
+    const initClient = () => {
+      gapi.client.init({
+        clientId: CLIENT_ID,
+        scope: scope,
+      });
+    };
+    gapi.load("client:auth2", initClient);
   }, []);
 
   const submitForm = (values) => {
@@ -223,7 +240,7 @@ const ParentSignup = (props) => {
   });
 
   return (
-    <Container  className="mb-5">
+    <Container className="mb-5">
       <Row className="mt-4">
         <Col lg={6} md={6} sm={12} className="pb-5 ps-5 pe-5 pt-4 m-auto shadow -sm rounded-lg teacer-sign-background">
           {/* <div className="d-flex justify-content-center align-items-center mb-4 ">

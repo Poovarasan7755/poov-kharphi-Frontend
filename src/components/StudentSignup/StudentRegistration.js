@@ -26,6 +26,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendarDay } from "@fortawesome/free-solid-svg-icons";
 import { faEye, faEyeSlash, faRedoAlt } from "@fortawesome/free-solid-svg-icons";
 import { customStyles } from "../core/Selector";
+import { gapi } from "gapi-script";
 
 const options = [
   { value: "Male", label: "Male" },
@@ -42,13 +43,16 @@ const StudentRegistration = (props) => {
   const [dob, setdob] = useState("");
   const [role, setrole] = useState("");
   const [aliasName, setaliasName] = useState(props?.props?.location?.state?.aliasName);
+  let scope = "https://www.googleapis.com/auth/cloud-platform.read-only";
 
   const isParent = role === ROLES_PARENT;
+  const CLIENT_ID = "313952593707-fcr3sl5satv8bb6e2kg9n0363mnom208.apps.googleusercontent.com";
 
   // const CLIENT_ID = "901411976146-5r87ft9nah8tqdp3stg7uod39i1h66ft.apps.googleusercontent.com";
 
   // const CLIENT_ID = "643156914414-497ec28oqlhespf1v6jkqh9sn9hv22b4.apps.googleusercontent.com";
-     const CLIENT_ID = "154233691399-c6qq8md89obd5eetk01f3lc7ieqe7ui5.apps.googleusercontent.com";
+  // const CLIENT_ID = "154233691399-c6qq8md89obd5eetk01f3lc7ieqe7ui5.apps.googleusercontent.com";
+  // const CLIENT_ID = "313952593707-aoidfjiq5fnsctc88ifjr5chi44e9e7q.apps.googleusercontent.com";
 
   // Success Handler
   const responseGoogleSuccess = (response) => {
@@ -131,7 +135,11 @@ const StudentRegistration = (props) => {
   };
 
   // Error Handler
-  const responseGoogleError = (response) => {};
+  const responseGoogleError = (response) => {
+    console.log("response", response);
+
+    alert(response);
+  };
   const [captcha, setCaptcha] = useState("");
 
   // Date Format
@@ -176,6 +184,13 @@ const StudentRegistration = (props) => {
     const role = localStorage.getItem("role");
     setrole(role);
     setparentId(parentId);
+    const initClient = () => {
+      gapi.client.init({
+        clientId: CLIENT_ID,
+        scope: scope,
+      });
+    };
+    gapi.load("client:auth2", initClient);
   }, []);
 
   //Submit Form
