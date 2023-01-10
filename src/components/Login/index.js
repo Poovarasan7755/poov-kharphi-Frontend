@@ -19,6 +19,7 @@ import Api from "../../Api";
 // Icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import { gapi } from "gapi-script";
 
 // Roles
 
@@ -31,8 +32,9 @@ const Login = () => {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const history = useHistory();
+  const CLIENT_ID = "313952593707-fcr3sl5satv8bb6e2kg9n0363mnom208.apps.googleusercontent.com";
 
-  const CLIENT_ID = "901411976146-5r87ft9nah8tqdp3stg7uod39i1h66ft.apps.googleusercontent.com";
+  // const CLIENT_ID = "901411976146-5r87ft9nah8tqdp3stg7uod39i1h66ft.apps.googleusercontent.com";
   // const CLIENT_ID = "313952593707-aoidfjiq5fnsctc88ifjr5chi44e9e7q.apps.googleusercontent.com";
   // const CLIENT_ID = "154233691399-c6qq8md89obd5eetk01f3lc7ieqe7ui5.apps.googleusercontent.com";
 
@@ -206,6 +208,16 @@ const Login = () => {
       .min(8, "Password Required Minimum 8 Characters")
       .required("Password Is Required"),
   });
+
+  useEffect(() => {
+    const initClient = () => {
+      gapi.client.init({
+        clientId: CLIENT_ID,
+        scope: scope,
+      });
+    };
+    gapi.load("client:auth2", initClient);
+  }, []);
 
   return (
     <Container>
