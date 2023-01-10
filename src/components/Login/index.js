@@ -33,6 +33,7 @@ const Login = () => {
   const handleClose = () => setShow(false);
   const history = useHistory();
   const CLIENT_ID = "313952593707-fcr3sl5satv8bb6e2kg9n0363mnom208.apps.googleusercontent.com";
+  let scope = "https://www.googleapis.com/auth/cloud-platform.read-only";
 
   // const CLIENT_ID = "901411976146-5r87ft9nah8tqdp3stg7uod39i1h66ft.apps.googleusercontent.com";
   // const CLIENT_ID = "313952593707-aoidfjiq5fnsctc88ifjr5chi44e9e7q.apps.googleusercontent.com";
