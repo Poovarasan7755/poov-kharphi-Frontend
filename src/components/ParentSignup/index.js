@@ -74,6 +74,7 @@ const ParentSignup = (props) => {
 
   //FaceBook
   const responseFacebook = (response) => {
+    console.log("response", response);
     Api.post("api/v1/parent/signup", {
       faceBookId: response.id,
       isFaceBookLogin: true,

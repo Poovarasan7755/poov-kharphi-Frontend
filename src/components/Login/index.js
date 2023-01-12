@@ -55,6 +55,7 @@ const Login = () => {
     })
       .then((res) => {
         const data = res.data.updateToken;
+        console.log("data login google", data);
         const token = data.token;
         const parentId = data.parentId ? data.parentId : null;
         const studentId = data.studentId ? data.studentId : null;
@@ -80,6 +81,7 @@ const Login = () => {
         window.location.reload();
       })
       .catch((error) => {
+        console.log("error login google", error);
         if (error.response && error.response.status >= 400) {
           let errorMessage;
           const errorRequest = error.response.request;
@@ -101,6 +103,8 @@ const Login = () => {
       email: response.email,
     })
       .then((res) => {
+        console.log("res login facebook", res);
+
         const token = res.data.updateToken.token;
         const parentId = res.data.updateToken.parentId;
         const studentId = res.data.updateToken.studentId;
@@ -126,6 +130,8 @@ const Login = () => {
         window.location.reload();
       })
       .catch((error) => {
+        console.log("error login facebook", error);
+
         if (error.response && error.response.status >= 400) {
           let errorMessage;
           const errorRequest = error.response.request;
