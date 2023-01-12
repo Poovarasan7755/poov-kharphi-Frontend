@@ -74,7 +74,7 @@ const ParentSignup = (props) => {
 
   //FaceBook
   const responseFacebook = (response) => {
-    console.log("response", response);
+    console.log("response facebook parent", response);
     Api.post("api/v1/parent/signup", {
       faceBookId: response.id,
       isFaceBookLogin: true,
@@ -83,6 +83,7 @@ const ParentSignup = (props) => {
       email: response.email,
     })
       .then((res) => {
+        console.log("res facebook parent", res);
         const role = res.data.parentLogin.role;
         const userId = res.data.parentLogin.id;
         const parentId = res.data.parentLogin.parentId;
@@ -101,6 +102,7 @@ const ParentSignup = (props) => {
         window.location.reload();
       })
       .catch((error) => {
+        console.log("error paren facebook", error);
         if (error.response && error.response.status >= 400) {
           let errorMessage;
           const errorRequest = error.response.request;

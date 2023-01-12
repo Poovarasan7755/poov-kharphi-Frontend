@@ -12,9 +12,9 @@ export const ENV = NODE_ENV;
 
 export const DEFAULT_API_KEY = REACT_APP_DEFAULT_API_KEY;
 
-// export const API_URL = "http://localhost:3000/";
+export const API_URL = "http://localhost:3000/";
 // export const API_URL = "https://poov-kharphi-appi.vercel.app/";
-export const API_URL = "https://kharphidb.onrender.com/";
+// export const API_URL = "https://kharphidb.onrender.com/";
 // export const API_URL = "https://kharphi-api.herokuapp.com/";
 
 export const HEADER = REACT_API_HEADER;

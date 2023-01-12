@@ -95,6 +95,8 @@ const Login = () => {
 
   //FaceBook
   const responseFacebook = (response) => {
+        console.log("response facebook login", response);
+
     Api.post("api/v1/user/login", {
       faceBookId: response.id,
       isFaceBookLogin: true,

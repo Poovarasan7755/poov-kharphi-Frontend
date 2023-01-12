@@ -47,6 +47,7 @@ const StudentRegistration = (props) => {
 
   const isParent = role === ROLES_PARENT;
   const CLIENT_ID = "313952593707-fcr3sl5satv8bb6e2kg9n0363mnom208.apps.googleusercontent.com";
+  let faceBookId = "766552864322859";
 
   // const CLIENT_ID = "901411976146-5r87ft9nah8tqdp3stg7uod39i1h66ft.apps.googleusercontent.com";
 
@@ -96,43 +97,43 @@ const StudentRegistration = (props) => {
 
   //FaceBook
   const responseFacebook = (response) => {
-    console.log("response facebook", response);
-    // Api.post("api/v1/student/signup", {
-    //   faceBookId: response.id,
-    //   isFaceBookLogin: true,
-    //   firstName: response.first_name,
-    //   lastName: response.last_name,
-    //   email: response.email,
-    // })
-    //   .then((res) => {
-    //     if (parentId) {
-    //       history.goBack();
-    //     } else if (!res.data.dataVerified) {
-    //       const role = res.data.studentLogin.role;
-    //       const userId = res.data.studentLogin.id;
-    //       const studentId = res.data.studentLogin.studentId;
-    //       const token = res.data.studentLogin.token;
-    //       localStorage.setItem("role", role);
-    //       localStorage.setItem("userId", userId);
-    //       localStorage.setItem("studentId", studentId);
-    //       localStorage.setItem("sessionId", token);
-    //       history.push({
-    //         pathname: `/edit/student/details/${studentId}`,
-    //         state: { courseId: courseId, aliasName: aliasName },
-    //       });
-    //       window.location.reload();
-    //     }
-    //   })
-    //   .catch((error) => {
-    //     if (error.response && error.response.status >= 400) {
-    //       let errorMessage;
-    //       const errorRequest = error.response.request;
-    //       if (errorRequest && errorRequest.response) {
-    //         errorMessage = JSON.parse(errorRequest.response).message;
-    //       }
-    //       toast.error(error.response.data.message);
-    //     }
-    //   });
+    console.log("response facebook student", response);
+    Api.post("api/v1/student/signup", {
+      faceBookId: response.id,
+      isFaceBookLogin: true,
+      firstName: response.first_name,
+      lastName: response.last_name,
+      email: response.email,
+    })
+      .then((res) => {
+        if (parentId) {
+          history.goBack();
+        } else if (!res.data.dataVerified) {
+          const role = res.data.studentLogin.role;
+          const userId = res.data.studentLogin.id;
+          const studentId = res.data.studentLogin.studentId;
+          const token = res.data.studentLogin.token;
+          localStorage.setItem("role", role);
+          localStorage.setItem("userId", userId);
+          localStorage.setItem("studentId", studentId);
+          localStorage.setItem("sessionId", token);
+          history.push({
+            pathname: `/edit/student/details/${studentId}`,
+            state: { courseId: courseId, aliasName: aliasName },
+          });
+          window.location.reload();
+        }
+      })
+      .catch((error) => {
+        if (error.response && error.response.status >= 400) {
+          let errorMessage;
+          const errorRequest = error.response.request;
+          if (errorRequest && errorRequest.response) {
+            errorMessage = JSON.parse(errorRequest.response).message;
+          }
+          toast.error(error.response.data.message);
+        }
+      });
   };
 
   // Error Handler
@@ -325,7 +326,7 @@ const StudentRegistration = (props) => {
                 </div>
                 <div className="pt-3">
                   <FacebookLogin
-                    appId="766552864322859"
+                    appId={faceBookId}
                     autoLoad={false}
                     textButton="Sign Up with Facebook"
                     fields="first_name,last_name,email,picture"
