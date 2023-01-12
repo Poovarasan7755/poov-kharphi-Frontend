@@ -96,42 +96,43 @@ const StudentRegistration = (props) => {
 
   //FaceBook
   const responseFacebook = (response) => {
-    Api.post("api/v1/student/signup", {
-      faceBookId: response.id,
-      isFaceBookLogin: true,
-      firstName: response.first_name,
-      lastName: response.last_name,
-      email: response.email,
-    })
-      .then((res) => {
-        if (parentId) {
-          history.goBack();
-        } else if (!res.data.dataVerified) {
-          const role = res.data.studentLogin.role;
-          const userId = res.data.studentLogin.id;
-          const studentId = res.data.studentLogin.studentId;
-          const token = res.data.studentLogin.token;
-          localStorage.setItem("role", role);
-          localStorage.setItem("userId", userId);
-          localStorage.setItem("studentId", studentId);
-          localStorage.setItem("sessionId", token);
-          history.push({
-            pathname: `/edit/student/details/${studentId}`,
-            state: { courseId: courseId, aliasName: aliasName },
-          });
-          window.location.reload();
-        }
-      })
-      .catch((error) => {
-        if (error.response && error.response.status >= 400) {
-          let errorMessage;
-          const errorRequest = error.response.request;
-          if (errorRequest && errorRequest.response) {
-            errorMessage = JSON.parse(errorRequest.response).message;
-          }
-          toast.error(error.response.data.message);
-        }
-      });
+    console.log("response facebook", response);
+    // Api.post("api/v1/student/signup", {
+    //   faceBookId: response.id,
+    //   isFaceBookLogin: true,
+    //   firstName: response.first_name,
+    //   lastName: response.last_name,
+    //   email: response.email,
+    // })
+    //   .then((res) => {
+    //     if (parentId) {
+    //       history.goBack();
+    //     } else if (!res.data.dataVerified) {
+    //       const role = res.data.studentLogin.role;
+    //       const userId = res.data.studentLogin.id;
+    //       const studentId = res.data.studentLogin.studentId;
+    //       const token = res.data.studentLogin.token;
+    //       localStorage.setItem("role", role);
+    //       localStorage.setItem("userId", userId);
+    //       localStorage.setItem("studentId", studentId);
+    //       localStorage.setItem("sessionId", token);
+    //       history.push({
+    //         pathname: `/edit/student/details/${studentId}`,
+    //         state: { courseId: courseId, aliasName: aliasName },
+    //       });
+    //       window.location.reload();
+    //     }
+    //   })
+    //   .catch((error) => {
+    //     if (error.response && error.response.status >= 400) {
+    //       let errorMessage;
+    //       const errorRequest = error.response.request;
+    //       if (errorRequest && errorRequest.response) {
+    //         errorMessage = JSON.parse(errorRequest.response).message;
+    //       }
+    //       toast.error(error.response.data.message);
+    //     }
+    //   });
   };
 
   // Error Handler
