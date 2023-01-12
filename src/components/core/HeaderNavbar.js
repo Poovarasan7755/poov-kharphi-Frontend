@@ -139,15 +139,16 @@ const HeaderNavbar = ({ props, sidebar, open }) => {
                 <UncontrolledDropdown nav inNavbar>
                   <DropdownToggle nav style={{ marginRight: 20 }}>
                     {image ? (
-                      <Avatar
-                        src={image}
-                        size="40"
-                        onClick={() => setshow(!show)}
-                        round={true}
-                        color="silver"
-                        className="avatar-style"
-                        style={{ width: "92%" }}
-                      />
+                      // <Avatar
+                      //   src={image}
+                      //   size="40"
+                      //   onClick={() => setshow(!show)}
+                      //   round={true}
+                      //   color="silver"
+                      //   className="avatar-style"
+                      //   style={{ width: "92%" }}
+                      // />
+                      <img src={image} width="40" height="40" style={{ borderRadius: "50%" }} />
                     ) : (
                       <Avatar
                         name={`${firstName} ${lastName}`}
