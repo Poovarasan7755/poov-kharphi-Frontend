@@ -572,7 +572,7 @@ export default class CourseDetail extends Component {
                           // value: list?.id,
                           value: list?.id,
                           label: `${list?.firstName} ${list?.lastName}`,
-                          isDisabled: list?.activeStatus,
+                          isDisabled: !list?.activeStatus,
                         }))}
                         onChange={(e) => {
                           this.getCourseDetails(e);
